@@ -46,7 +46,7 @@ function EditProfile() {
   };
 
   return (
-    <div className="w-full  flex justify-center items-center py-6 max-[800px]:flex-col ">
+    <div className="w-full relative  mt-[30px]  flex justify-center items-center py-6 max-[800px]:flex-col ">
       <div className="mx-4  card rounded-none  text-black   p-4 bg-black w-[350px]  max-w-96 shadow-xl">
         <h1 className="text-center font-bold text-white text-2xl">
           Edit Profile

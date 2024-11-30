@@ -5,7 +5,7 @@ import BackgroundImage1 from '../Images/BackgroundImage1.png';
 function HomePage() {
   return (
         <div
-          className="bg-cover h-screen relative"
+          className="bg-cover h-screen "
           style={{ backgroundImage: `url(${BackgroundImage1})` }}
         >
           {/* Overlay */}

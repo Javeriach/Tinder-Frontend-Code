@@ -17,11 +17,29 @@ function Login() {
   let [lastName, setLastName] = useState('');
   let [loginFrom, setLoginForm] = useState(true);
   let [forgetPassword, setForgetPassword] = useState(false);
+  let [error, setError] = useState("");
   
-
-
+  console.log(firstName, lastName, password, emailID);
   const handleSignUp = async () =>
   {
+    if(error) setError("");
+    if (password.length < 8)
+    {
+      setError("Password length must be atleast 8.");
+      return;
+    }
+
+    if (firstName.length < 5 || firstName.length > 50)
+      {
+        setError("First name length must be between 5 & 50.");
+        return;
+    }
+    if (lastName.length < 5 || lastName.length > 50)
+      {
+        setError("Last name length must be between 5 & 50.");
+        return;
+    }
+
     try {
       let response = await axios.post(BASE_USL+"/auth/signup", { 
         firstName:firstName,
@@ -31,19 +49,28 @@ function Login() {
         gender: "male",
         age: 20,
         
-       }, { withCredentials: true });
+       }, {withCredentials: true });
       toast.success("LoginNow");
       dispatch(addUser(response.data));
       navigate("/profile");
     } catch (error)
     {
-      toast.error("Something went wrong");
+      if (error.status === 400) setError(error.response.data);
+      else toast.error("Something went wrong!!");
       console.log(error);
-      throw new Error(error.response.data.message);
+      throw new Error('ERROR' + error.message);
     }
   }
 
   const loginHandler = async () => {
+    if(error) setError("");
+    if (password.length < 8)
+    {
+      setError("Password length must be atleast 8.");
+      return;
+    }
+
+
     try {
       const result = await axios.post(
         'http://localhost:7777/auth/login',
@@ -60,37 +87,43 @@ function Login() {
       toast.success('Login successfully!!');
       navigate('/feed');
     } catch (error) {
-      toast.error(error.message);
-      console.log(error);
+      if (error.status === 400) setError(error.response.data);
+      else toast.error("Something went wrong!!");
       throw new Error('ERROR' + error.message);
     }
   };
 
   let handleForgetPassword = async () => {
     try {
+      setError("");
       let result = await axios.patch(BASE_USL + "/forgetPassword", {
         emailId: emailID,
         password
       }, { withCredentials: true });
-      console.log(result);
-      // setLoginForm(true);
+      toast.success("Password Updated Successfully!!");
+      setLoginForm(true);
+      setForgetPassword(false);
     } catch (error)
     {
-      console.log(error);
+      if (error.status === 400) {
+        setError(error.response.data.message);
+      } else toast.error("Something went wrong!!");
     }
     
   }
-  useEffect(() => {
-    if (message) {
-      setTimeout(() => {
-        setMessage('');
-      }, 3000);
-      return;
-    }
+  // useEffect(() => {
+  //   if (message) {
+  //     setTimeout(() => {
+  //       setMessage('');
+  //     }, 3000);
+  //     return;
+  //   }
 
-    setMessage('Please Login');
-  }, [user, message]);
+  //   setMessage('Please Login');
+  // }, [user, message]);
 
+
+  
   return (
 
     <div  
@@ -142,7 +175,7 @@ function Login() {
             </>
           }
 
-          <label className={`input input-bordered flex items-center gap-2 ${loginFrom || forgetPassword && "mt-3"} text-white`}>
+          <label className={`input input-bordered flex items-center gap-2 ${loginFrom || !forgetPassword && "mt-3"} text-white`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -175,7 +208,8 @@ function Login() {
               />
             </svg>
             <div>
-            <input
+                <input
+                  placeholder={forgetPassword?"Enter new Password":"Enter Password"}
               type="password"
               className="grow "
               value={password}
@@ -183,7 +217,7 @@ function Login() {
               />
             </div>            
             </label>
-            
+            {error && <p className='text-red-600 font-semibold'>{error}</p>}
           {loginFrom && !forgetPassword  &&  <div>
               <p className='ms-[125px] text-[15px] font-semibold cursor-pointer' onClick={() => {
                 setForgetPassword(!forgetPassword);
@@ -206,10 +240,13 @@ function Login() {
             <p className='text-center text-[15px]' onClick={()=>setLoginForm(ps=>!ps)}>
               Don't have an account?<span className='text-blue-950 font-bold cursor-pointer text-[17px]'> SignUp</span>
             </p>
-            : !forgetPassword?
-            <p className='text-center  text-[15px]' onClick={()=>setLoginForm(ps=>!ps)}>
+            :
+              <p className='text-center  text-[15px]' onClick={() => {
+                setLoginForm(ps => !ps)
+                setForgetPassword(false)
+            }}>
               Already have an Account?<span className='text-blue-950 font-bold cursor-pointer text-[15px]'> Login Now </span>
-              </p>:""
+              </p>
             }
           </div>
         </div>

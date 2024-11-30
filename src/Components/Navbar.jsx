@@ -37,11 +37,14 @@ function Navbar() {
 
   return (
     <div>
-      <div className="navbar bg-black px-6">
+      <div className="navbar top-0 h-[70px] absolute px-6 z-[1000]">
         <div className="flex-1">
-          <Link className="btn btn-ghost text-3xl font-mono" to={'/'}>
-            <img src={tinder}  />
-            Tinder</Link>
+          <Link className="flex text-3xl font-mono" to={'/'}>
+            <img className="mx-1 h-[40px] w-[40px]" src={tinder} />
+            <h1 className="font-bold">
+            Tinder
+            </h1>
+           </Link>
         </div>
         <div className="flex-none gap-2">
         {user?.firstName && <label className="font-bold">Hi! {user.firstName} </label>}

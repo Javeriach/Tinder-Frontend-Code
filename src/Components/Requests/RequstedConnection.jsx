@@ -10,8 +10,8 @@ import { addConnections } from '../../utiles/Slices/connections';
 function RequstedConnection({ fromUser, requestId,fetchRequests }) {
     let dispatch = useDispatch();
     if (!fromUser) return;
-    let { firstName, lastName, photoUrl, about,_id } = fromUser;
-
+  let { firstName, lastName, photoUrl, about, _id } = fromUser;
+  
     //HANDLE THE STATUS OF THE REQUEST 
     let reviewRequest = async (status) =>
     {
@@ -52,7 +52,7 @@ function RequstedConnection({ fromUser, requestId,fetchRequests }) {
               <h1 className='text-black font-bold'>
                 {firstName} {lastName}
               </h1>
-              <p className='text-black text-[12px]'>{about}</p>
+              <p className='text-black text-[12px] font-semibold'>{about}</p>
             </div>
             <div className="flex items-center max-[500px]:hidden gap-2">
             <button className="btn btn-active btn-secondary rounded-full " onClick={()=>reviewRequest("rejected")}>Reject</button>
@@ -60,8 +60,8 @@ function RequstedConnection({ fromUser, requestId,fetchRequests }) {
             </div>
 
             <div className="hidden items-center max-[500px]:flex">
-            <CancelIcon sx={{ fontSize: 40 }}  className="text-red-600" onClick={()=>reviewRequest("rejected")} />
-                <CheckCircleOutlineIcon sx={{ fontSize: 40 }} onClick={() => reviewRequest("accepted")} className="text-green-600" />
+            <CancelIcon sx={{ fontSize: 40 }}  className="text-black" onClick={()=>reviewRequest("rejected")} />
+            <CheckCircleOutlineIcon sx={{ fontSize: 40 }} onClick={() => reviewRequest("accepted")} className="text-green-600" />
                 
             </div>
 
