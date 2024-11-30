@@ -29,13 +29,13 @@ function Connections() {
     fetchConnections();
   }, []);
 
-  if (!connections)
-    return <div className='flex flex-col items-center  min-h-[470px]' style={{background: `linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)`}}>
-      <h1 h1 className = "text-center text-black" > No connections find!!😊</h1>
+  if (!connections.length > 0)
+    return <div className='flex  justify-center items-center  h-screen  bg-custom-gradient ' >
+      <h1 h1 className = "text-center text-black" > Currently!! You have not any friend!!😊</h1>
   </div>  
   return (
-    <div className="flex flex-col items-center  min-h-[470px]"  style={{background: `linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)`}}>
-      <h1 className="text-3xl font-bold mt-4 text-black ">Connections</h1>
+    <div className="flex flex-col items-center min-h-screen pb-4 pt-[100px] ">
+      <h1 className="text-3xl font-bold text-black mt-7 ">Your Friends!!</h1>
       <div className='gap-3'>
         {connections?.map((connection) => (
             <SingleConnection friend={connection} />

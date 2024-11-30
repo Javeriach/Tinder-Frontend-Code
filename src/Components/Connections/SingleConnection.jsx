@@ -4,13 +4,13 @@ function SingleConnection({ friend }) {
   let { firstName, lastName, about, photoUrl,gender } = friend;
 
   if (about.length > 100) {
-    about = about.substring(0, 80);
+    about = about.substring(0, 50);
     about = about + '...';
   }
 
   return (
     <div>
-      <div className="flex bg-white mt-3 w-[500px] max-[500px]:w-[400px]  px-3 py-2">
+      <div className="flex bg-white mt-3 w-[500px] max-[500px]:w-[320px]  px-3 py-2">
         <div className="avatar w-[100px] h-[80px]">
           <div className="  w-20 rounded-full  ring-2 ring-black ">
             <img

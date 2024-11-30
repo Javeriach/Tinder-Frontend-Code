@@ -13,7 +13,7 @@ function Profile() {
         return;
     }
     return (
-        <div style={{background: `linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)`}}>
+        <div>
            <EditProfile/>
         </div>
     )

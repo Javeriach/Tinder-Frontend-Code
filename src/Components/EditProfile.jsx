@@ -13,16 +13,29 @@ function EditProfile() {
   let [lastName, setLastName] = useState(user?.lastName ? user.lastName : "");
   let [about, setAbout] = useState(user?.about);
   let [age, setAge] = useState(user?.age ? user.age : 0);
-  let [gender, setGender] = useState(user?.gender ? user.gender : "Male");
+  let [gender, setGender] = useState(user?.gender ? user.gender : "male");
   let [photoUrl, setPhotoUrl] = useState(user?.photoUrl ? user?.photoUrl : "");
+  let [error, setError] = useState("");
 
-  console.log({firstName: firstName,
-    lastName,
-    age,
-    gender,
-    about,
-    photoUrl,})
   let saveProfileHandler = async () => {
+    setError("");
+    if (firstName.length < 5 || firstName.length > 50)
+      {
+        setError("First name length must be between 5 & 50.");
+        return;
+    }
+    if (lastName.length < 5 || lastName.length > 50)
+      {
+        setError("Last name length must be between 5 & 50.");
+        return;
+    }
+
+    if (!(age >= 18 && age <= 90))
+    {
+      setError("Age must be greater than 17 and less than 91!!");
+      return;
+    }
+
     try {
       const response = await axios.patch(
         BASE_USL + '/profile/edit',
@@ -46,7 +59,7 @@ function EditProfile() {
   };
 
   return (
-    <div className="w-full relative  mt-[30px]  flex justify-center items-center py-6 max-[800px]:flex-col ">
+    <div className="relative pt-[100px]  flex justify-center items-center py-6 max-[800px]:flex-col ">
       <div className="mx-4  card rounded-none  text-black   p-4 bg-black w-[350px]  max-w-96 shadow-xl">
         <h1 className="text-center font-bold text-white text-2xl">
           Edit Profile
@@ -138,6 +151,8 @@ function EditProfile() {
 
 
         </label>
+
+        {error && <p className='text-red-700 font-semibold'>{error}</p>}
 
         <div className="card-actions justify-end ">
           <button

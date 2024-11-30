@@ -1,8 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'custom-gradient':
+          'linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)',
+      },
+    },
   },
   plugins: [require('daisyui')],
   daisyui: {

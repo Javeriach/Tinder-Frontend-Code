@@ -31,7 +31,7 @@ function UserCard({ user, feed }) {
   }
 
     return (
-      <div className="card rounded-none max-[800px]:mt-3  bg-gray-950 shadow-xl h-[640px] w-[350px]">
+      <div className="card max-[800px]:mt-3 rounded-lg shadow-2xl  bg-gray-950  h-[640px] w-[350px]">
         <figure className="bg-base-300">
           <img
             className="w-[350px] h-[440px]"
@@ -44,8 +44,8 @@ function UserCard({ user, feed }) {
           { age && gender && <p>Gender {gender} , Age: {age}</p>}
         
           <div className="card-actions justify-between">
-                    <button className="btn bg-[#ed0c0c] " onClick={()=>handleInterest("ignored")}>Ignore</button>
-            <button className="btn bg-[#389923] text-white"  onClick={() => handleInterest("interested")}>Interested</button>
+                    <button className="btn bg-[#ed0c0c] hover:bg-[#f84343] hover:text-black" onClick={()=>handleInterest("ignored")}>Ignore</button>
+            <button className="btn bg-[#389923] text-white hover:bg-[#5aca41] hover:text-black"  onClick={() => handleInterest("interested")}>Interested</button>
           </div>
           
         </div>

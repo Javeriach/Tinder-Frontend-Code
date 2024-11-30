@@ -38,7 +38,7 @@ function Body() {
   }, []);
 
   return (
-    <div  >
+    <div  className='bg-custom-gradient'>
       <Navbar />
       <Outlet />
       {/* <Footer /> */}

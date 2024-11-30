@@ -1,11 +1,4 @@
-body {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)
-}
 
-body,html{
-  overflow-x: hidden;}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

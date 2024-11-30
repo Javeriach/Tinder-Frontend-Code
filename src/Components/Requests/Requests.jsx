@@ -31,10 +31,10 @@ function Requests() {
     
   if (requests.toString() === "")
       return <div className="flex items-center justify-center h-screen">
-        <h1 className="text-center text-[30px] text-black font-bold">No connections Requests!!😊</h1>;
+        <h1 className="text-center  text-black ">No connections Requests!!😊</h1>;
     </div>
   return (
-    <div className="flex flex-col items-center min-h-[470px]">
+    <div className="flex flex-col items-center min-h-screen pb-4 pt-[90px] ">
       <h1 className="text-2xl font-bold text-black mt-4">Connections Request</h1>
       <div className='gap-3'>
         {requests?.map((req,index) => (

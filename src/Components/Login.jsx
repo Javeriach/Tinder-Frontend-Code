@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../utiles/Slices/userSlice';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { BASE_USL } from '../utiles/constants/constant';
+import { removeConnections } from '../utiles/Slices/connections';
+import { removeFeed } from '../utiles/Slices/feedSlice';
+import { removeRequests } from '../utiles/Slices/requests';
 
 function Login() {
-  let [emailID, setEmailID] = useState('amina@gmail.com');
-  let [password, setPassword] = useState('Amina123@#');
+  let [emailID, setEmailID] = useState('');
+  let [password, setPassword] = useState('');
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let [message, setMessage] = useState('');
@@ -18,17 +23,13 @@ function Login() {
   let [loginFrom, setLoginForm] = useState(true);
   let [forgetPassword, setForgetPassword] = useState(false);
   let [error, setError] = useState("");
+  let [showPassword, setShowPassword] = useState(false);
   
-  console.log(firstName, lastName, password, emailID);
+  
   const handleSignUp = async () =>
   {
     if(error) setError("");
-    if (password.length < 8)
-    {
-      setError("Password length must be atleast 8.");
-      return;
-    }
-
+    
     if (firstName.length < 5 || firstName.length > 50)
       {
         setError("First name length must be between 5 & 50.");
@@ -39,24 +40,36 @@ function Login() {
         setError("Last name length must be between 5 & 50.");
         return;
     }
+    if (password.length < 8)
+      {
+        setError("Password length must be atleast 8.");
+        return;
+      }
+  
 
     try {
-      let response = await axios.post(BASE_USL+"/auth/signup", { 
-        firstName:firstName,
-        lastName:lastName,
-        email:emailID,
+      let response = await axios.post(BASE_USL + "/auth/signup", {
+        firstName: firstName,
+        lastName: lastName,
+        email: emailID,
         password,
         gender: "male",
         age: 20,
         
-       }, {withCredentials: true });
+      }, { withCredentials: true });
       toast.success("LoginNow");
       dispatch(addUser(response.data));
       navigate("/profile");
-    } catch (error)
-    {
-      if (error.status === 400) setError(error.response.data);
-      else toast.error("Something went wrong!!");
+      dispatch(removeConnections());
+      dispatch(removeFeed());
+      dispatch(removeRequests());
+    } catch (error) {
+      if (error.status === 400) { setError(error.response.data.message); 
+      console.log(error.response.data.message);
+    }
+      else if (error.response.data.message.substring("E11000")) {
+        setError("Use a different Email address!!");
+      } toast.error("Something went wrong!!");
       console.log(error);
       throw new Error('ERROR' + error.message);
     }
@@ -64,11 +77,7 @@ function Login() {
 
   const loginHandler = async () => {
     if(error) setError("");
-    if (password.length < 8)
-    {
-      setError("Password length must be atleast 8.");
-      return;
-    }
+   
 
 
     try {
@@ -86,9 +95,14 @@ function Login() {
       dispatch(addUser(result.data));
       toast.success('Login successfully!!');
       navigate('/feed');
+      dispatch(removeConnections());
+      dispatch(removeFeed());
+      dispatch(removeRequests());
     } catch (error) {
-      if (error.status === 400) setError(error.response.data);
+      if (error.status === 400) {setError(error.response.data.message);
+   }
       else toast.error("Something went wrong!!");
+      console.log(error);
       throw new Error('ERROR' + error.message);
     }
   };
@@ -111,25 +125,16 @@ function Login() {
     }
     
   }
-  // useEffect(() => {
-  //   if (message) {
-  //     setTimeout(() => {
-  //       setMessage('');
-  //     }, 3000);
-  //     return;
-  //   }
 
-  //   setMessage('Please Login');
-  // }, [user, message]);
 
 
   
   return (
 
     <div  
-      className="w-full  h-[500px] flex  justify-center items-center">
+      className="w-full  h-screen  shadow-2xl flex  justify-center  pt-[60px] overflow-y-auto ">
      
-      <div className="card text-black bg-white w-[320px]  max-w-96 shadow-xl">
+      <div className="card text-black bg-white w-[320px]  mt-[60px] h-fit max-w-96 shadow-xl">
         <div className="card-body ">
           <div>
             <h2 className={`card-title text-3xl justify-center font-bold cursor-pointer ${forgetPassword && "p-2"}`}>
@@ -175,7 +180,7 @@ function Login() {
             </>
           }
 
-          <label className={`input input-bordered flex items-center gap-2 ${loginFrom || !forgetPassword && "mt-3"} text-white`}>
+          <label className={`input input-bordered flex items-center gap-2 ${loginFrom && !forgetPassword && "mt-3"} text-white`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -194,7 +199,7 @@ function Login() {
             />
           </label>
           <div>
-          <label className="input input-bordered flex items-center gap-2  text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -207,17 +212,20 @@ function Login() {
                 clipRule="evenodd"
               />
             </svg>
-            <div>
+            <div className='flex' >
                 <input
-                  placeholder={forgetPassword?"Enter new Password":"Enter Password"}
-              type="password"
-              className="grow "
+                  placeholder={forgetPassword?"Enter new Password":"Password"}
+              type={showPassword ?"text":"password"}
+              className="grow bg-pink-900"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>            
+                />
+                {!showPassword ? <VisibilityIcon className="text-white mt-1 cursor-pointer" fontSize='15' onClick={() => setShowPassword(!showPassword)} /> : <VisibilityOffIcon onClick={() => setShowPassword(!showPassword)} className="text-white mt-1 cursor-pointer" fontSize='15'/>}
+
+              </div>
+
+              
             </label>
-            {error && <p className='text-red-600 font-semibold'>{error}</p>}
           {loginFrom && !forgetPassword  &&  <div>
               <p className='ms-[125px] text-[15px] font-semibold cursor-pointer' onClick={() => {
                 setForgetPassword(!forgetPassword);
@@ -225,12 +233,17 @@ function Login() {
               }}>Forget Password?</p>
             </div>}
           </div>
+
+
+          {/* ------Error Displaying */}
+          {error && <p className='text-red-600 font-semibold ms-1  text-wrap'>{error}</p>}
+
           
 
           
           <div className="card-actions justify-center ">
             <button
-              className=" h-[40px] bg-sky-700 rounded text-white btn-primary w-[150px] font-bold text-[20px]"
+              className=" h-[40px] bg-[#0a16bf] rounded text-white btn-primary w-[150px] font-bold text-[20px]"
               onClick={loginFrom && !forgetPassword ? loginHandler :forgetPassword ?handleForgetPassword:handleSignUp}
             >
               {loginFrom ?  "Login": forgetPassword ? "Reset Password":"Sign Up"}
@@ -243,7 +256,8 @@ function Login() {
             :
               <p className='text-center  text-[15px]' onClick={() => {
                 setLoginForm(ps => !ps)
-                setForgetPassword(false)
+                setForgetPassword(false);
+                setError("");
             }}>
               Already have an Account?<span className='text-blue-950 font-bold cursor-pointer text-[15px]'> Login Now </span>
               </p>
