@@ -1,17 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addRequests } from "../../utiles/Slices/requests";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_USL } from "../../utiles/constants/constant";
 import RequstedConnection from "./RequstedConnection";
+import { RequestSkeleton } from "@/ReuseAble_Components/RequestSkeleton";
 
 function Requests() {
   let dispatch = useDispatch();
   let requests = useSelector((store) => store.requests);
+  let [loading, setLoading] = useState(false);
 
   let fetchRequests = async () => {
     try {
+      setLoading(true);
         let requestResponse = await axios.get(
             BASE_USL + '/request/connections/received',
             { withCredentials: true }
@@ -22,6 +25,8 @@ function Requests() {
       console.log(error.message);
       toast.error('Something went wrong');
       throw new Error('Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,18 +34,15 @@ function Requests() {
     fetchRequests();
   }, []);
     
-  if (requests.toString() === "")
-      return <div className="flex items-center justify-center h-screen">
-        <h1 className="text-center  text-black ">No connections Requests!!😊</h1>;
-    </div>
+  
   return (
     <div className="flex flex-col items-center min-h-screen pb-4 pt-[90px] ">
-      <h1 className="text-2xl font-bold text-black mt-4">Connections Request</h1>
+     {loading?<RequestSkeleton/>:requests.toString() === ""? <h1 className="text-2xl font-bold text-black mt-4">Connections Request</h1>:
       <div className='gap-3'>
         {requests?.map((req,index) => (
             <RequstedConnection key={index} fromUser={req?.fromUserId} requestId={req?._id} fetchRequests={fetchRequests} />
         ))}
-      </div>
+      </div>}
     </div>
   );
 }

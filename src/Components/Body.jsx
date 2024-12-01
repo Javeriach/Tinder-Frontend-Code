@@ -1,6 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
-import Footer from './Footer';
 import toast, { Toaster } from 'react-hot-toast';
 import { BASE_USL } from '../utiles/constants/constant';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +40,6 @@ function Body() {
     <div  className='bg-custom-gradient'>
       <Navbar />
       <Outlet />
-      {/* <Footer /> */}
       <Toaster />
     </div>
   );

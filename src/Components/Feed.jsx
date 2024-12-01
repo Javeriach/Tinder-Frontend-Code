@@ -2,15 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import UserCard from './UserCard';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASE_USL } from '../utiles/constants/constant';
 import { addFeed } from '../utiles/Slices/feedSlice';
+import { UserCardSkeletion } from '@/ReuseAble_Components/UserCardSkeletion';
 
 function Feed() {
   let user = useSelector((store) => store.user);
   let navigate = useNavigate();
   let feed = useSelector((store) => store.feed);
+  let [loading, setLoading] = useState(false);
   let dispatch = useDispatch();
   if (!user) {
     navigate('/login');
@@ -19,6 +21,7 @@ function Feed() {
 
   const fetchFeed = async () => {
     try {
+      setLoading(false);
       const response = await axios.get(BASE_USL + '/feed', {
         withCredentials: true,
       });
@@ -28,6 +31,9 @@ function Feed() {
       toast.error('Something went wrong');
       throw new Error('Something went wrong!!');
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -36,12 +42,11 @@ function Feed() {
     
   },[]);
 
-  if (feed?.length === 0) {
-    return <div className='min-h-[430px] pt-[60px]'><h1 className='mt-10 text-white text-center'>No More Users Found!!</h1></div>
-  }
   return (
     <div className="flex justify-center bg-lime-700 py-11 max-h-full pt-[100px]"  style={{background: `linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)`}}>
-      {feed && <UserCard user={feed[0]} feed={true} />}
+      {
+        loading?<UserCardSkeletion/>:feed.length === 0 ?<h1 className='mt-10 text-white text-center'>No More Users Found!!</h1>:
+       <UserCard user={feed[0]} feed={true} />}
     </div>
   );
 }

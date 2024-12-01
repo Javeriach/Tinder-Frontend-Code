@@ -38,17 +38,17 @@ function RequstedConnection({ fromUser, requestId,fetchRequests }) {
   
     if (about.length > 100)
     {
-        about = about.substring(0,65);
+        about = about.substring(0,50);
         about = about + "...";
     }
     return (
-        <div className="flex bg-white mt-3 w-[500px] max-[500px]:w-[400px]  px-3 py-2">
-            <div className="avatar w-[100px] h-[80px]">
-              <div className="ring-primary ring-offset-base-100 w-20 rounded-full ring ring-offset-2">
+        <div className="flex bg-white mt-3 w-[500px] max-[500px]:w-[350px] px-3 py-2">
+            <div className="avatar w-[100px] h-[80px] max-[500px]:w-[70px] max-[500px]:h-[70px]">
+              <div className="ring-primary ring-offset-base-100 w-20 rounded-full ring">
                 <img src={photoUrl} />
               </div>
             </div>
-            <div className='w-[200px]   flex flex-col justify-center'>
+            <div className='w-[200px] flex flex-col  max-[500px]:ms-2'>
               <h1 className='text-black font-bold'>
                 {firstName} {lastName}
               </h1>
