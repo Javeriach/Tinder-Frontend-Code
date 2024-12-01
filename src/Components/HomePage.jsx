@@ -9,7 +9,7 @@ function HomePage() {
           style={{ backgroundImage: `url(${BackgroundImage1})` }}
         >
           {/* Overlay */}
-          <div className="absolute inset-0 bg-black opacity-[0.8]"></div>
+          <div className="absolute inset-0 bg-black opacity-[0.8] h-screen"></div>
           {/* Content on top of overlay */}
           <div className="relative z-10 flex flex-col items-center justify-center h-full">
             <h1 className="text-8xl max-[700px]:text-[50px] max-[500px]:text-[40px] font-bold  text-center text-white">Start Something epic</h1>
