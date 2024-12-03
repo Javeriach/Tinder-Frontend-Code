@@ -3,7 +3,7 @@ function SingleConnection({ friend }) {
 
   let { firstName, lastName, about, photoUrl,gender } = friend;
 
-  if (about.length > 100) {
+  if (about.length > 50) {
     about = about.substring(0, 50);
     about = about + '...';
   }
@@ -24,7 +24,7 @@ function SingleConnection({ friend }) {
             />
           </div>
         </div>
-        <div className="w-[400px]   max-[500px]:ms-3   flex flex-col justify-center">
+        <div className="w-[400px]   max-[500px]:ms-3   flex flex-col ">
           <h1 className="text-black font-bold text-[17px]">
             {firstName} {lastName}
           </h1>

@@ -1,1 +1,2 @@
-export let BASE_USL = 'http://localhost:7777';
+export let BASE_USL =
+  'https://tinder-server-lald.vercel.app/?vercelToolbarCode=lBv6vZq1SqHpqk';

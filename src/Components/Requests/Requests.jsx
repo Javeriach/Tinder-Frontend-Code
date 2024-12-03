@@ -37,11 +37,15 @@ function Requests() {
   
   return (
     <div className="flex flex-col items-center min-h-screen pb-4 pt-[90px] ">
-     {loading?<RequestSkeleton/>:requests.toString() === ""? <h1 className="text-2xl font-bold text-black mt-4">Connections Request</h1>:
-      <div className='gap-3'>
-        {requests?.map((req,index) => (
+     {loading?<RequestSkeleton/>:requests.toString() === ""? <h1 className="text-xl font-semibold  text-black mt-4">You have no more requests!!!</h1>:
+        <div className=''>
+          <h1 className="text-2xl font-bold text-black mt-4">Connection Requests!!!</h1>
+          <div className='gap-3'>
+          {requests?.map((req,index) => (
             <RequstedConnection key={index} fromUser={req?.fromUserId} requestId={req?._id} fetchRequests={fetchRequests} />
         ))}
+          </div>
+       
       </div>}
     </div>
   );
