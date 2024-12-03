@@ -61,8 +61,4 @@ export default {
   daisyui: {
     themes: ['light', 'dark', 'cupcake', 'night'],
   },
-  content: ['./pages/**/*.{html,js}', './components/**/*.{html,js}'],
-  // ...
-  safelist: ['bg-red-500', 'bg-green-500', 'bg-blue-500'],
-  // ...
 };
