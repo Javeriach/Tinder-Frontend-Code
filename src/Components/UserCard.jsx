@@ -1,56 +1,96 @@
-import axios from "axios";
-import toast from "react-hot-toast";
-import { BASE_USL } from "../utiles/constants/constant";
-import { useDispatch } from "react-redux";
-import { removeSelectedUserFromFeed } from "../utiles/Slices/feedSlice";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { BASE_USL } from '../utiles/constants/constant';
+import { useDispatch } from 'react-redux';
+import { removeSelectedUserFromFeed } from '../utiles/Slices/feedSlice';
+import {
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useTransform,
+} from 'framer-motion';
 
-function UserCard({ user, feed }) {
+function UserCard({ feeduser: user, feed, index, feedArray }) {
   let dispatch = useDispatch();
+  const x = useMotionValue(0);
+  const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
+  const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
+  const rotate = useTransform(() => {
+    const offset = index == feedArray?.length - 1 ? 0 : index % 2 ? 6 : -6;
+    return `${rotateRaw.get() + offset}deg`;
+  });
 
   if (!user) return;
   let { firstName, lastName, about, age, gender, photoUrl, _id } = user;
-  
-  if (about.length > 100) {
+
+  if (about.length > 200) {
     about = about.substring(0, 50);
     about = about + '...';
   }
 
-  let handleInterest = async (status) =>
-  {
-    if (!feed) return;
+  let handleDrayEnd = async () => {
+    let status = 'interested';
+    if (x.get() < 0) {
+      status = 'ignored';
+    } else if (x.get() == 0) {
+      return;
+    }
 
     try {
-      let response = await axios.post(BASE_USL + "/request/send/" + status + "/" + _id,{},{withCredentials:true});
-      dispatch(removeSelectedUserFromFeed(_id));  
-       
-    } catch (error)
-    {
-      toast.error("Something went wrong");
+      let response = await axios.post(
+        BASE_USL + '/request/send/' + status + '/' + _id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeSelectedUserFromFeed(_id));
+    } catch (error) {
+      toast.error('Something went wrong');
       throw new Error(error.message);
     }
-  }
+  };
 
-    return (
-      <div className="card max-[800px]:mt-3 rounded-lg shadow-2xl  bg-gray-950  h-[640px] w-[350px]">
-        <figure className="bg-base-300">
-          <img
-            className="w-[350px] h-[440px]"
-            src={photoUrl? photoUrl:gender === 'female'? "https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg":"https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"}
-            alt={firstName} />
-        </figure>
-        <div className="card-body pt-0 mt-2">
-                <h2 className="card-title fw-bold">{firstName + " " + lastName} </h2>
-          <p className="text-[15px] font-semibold">{about}</p> 
-          { age && gender && <p>Gender {gender} , Age: {age}</p>}
-        
-          <div className="card-actions justify-between">
-                    <button className="btn bg-[#ed0c0c] hover:bg-[#f84343] hover:text-black" onClick={()=>handleInterest("ignored")}>Ignore</button>
-            <button className="btn bg-[#389923] text-white hover:bg-[#5aca41] hover:text-black"  onClick={() => handleInterest("interested")}>Interested</button>
-          </div>
-          
-        </div>
+  return (
+    <motion.div
+      className={`card max-[800px]:mt-3   origin-center  rounded-2xl bg-gray-950  h-[640px] w-[350px] hover:cursor-grab active:cursor-grabbing
+        ${index == feedArray?.length - 1 ? "shadow-md shadow-red-500" : "" }`}
+      style={{
+        gridRow: 1,
+        gridColumn: 1,
+        x,
+        opacity,
+        rotate,
+        transition: '0.125s transform',
+         
+      }}
+      animate={{ scale: index == feedArray?.length - 1 ? 1 : 0.98 }}
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      onDragEnd={handleDrayEnd}
+    >
+
+      <motion.img
+        onDragStart={(e) => e.preventDefault()}
+        className="w-[350px] h-[440px] rounded-t-2xl"
+        src={
+          photoUrl
+            ? photoUrl
+            : gender === 'female'
+            ? 'https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg'
+            : 'https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg'
+        }
+        alt={firstName}
+      />
+      <div className="card-body pt-0 mt-2">
+        <h2 className="card-title fw-bold">{firstName + ' ' + lastName} </h2>
+        <p className="text-[15px] font-semibold">{about}</p>
+        {age && gender && (
+          <p>
+            Gender {gender} , Age: {age}
+          </p>
+        )}
       </div>
-    )
+    </motion.div>
+  );
 }
 
-export default UserCard
+export default UserCard;

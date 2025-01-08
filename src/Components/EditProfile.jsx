@@ -5,6 +5,7 @@ import axios from 'axios';
 import { BASE_USL } from '../utiles/constants/constant';
 import toast from 'react-hot-toast';
 import { addUser } from '../utiles/Slices/userSlice';
+import PreviewUserCard from './PreviewUserCard';
 
 function EditProfile() {
   let user = useSelector((store) => store.user);
@@ -108,7 +109,7 @@ function EditProfile() {
             <span className="label-text">What is your about?</span>
           </div>
           <textarea
-            maxLength={70}
+            maxLength={100}
             placeholder="About"
             value={about}
             onChange={(e) => setAbout(e.target.value)}
@@ -163,7 +164,7 @@ function EditProfile() {
           </button>
         </div>
       </div>
-      <UserCard user={{firstName,lastName,gender,photoUrl,age,about}} />
+      <PreviewUserCard user={{firstName,lastName,gender,photoUrl,age,about}} />
     </div>
   );
 }

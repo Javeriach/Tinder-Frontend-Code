@@ -65,7 +65,8 @@ function Navbar() {
                 <div className="w-12 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src={user?.photoUrl}
+                    src={user?.photoUrl.length > 0? user?.photoUrl: user?.gender === 'female'? "https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg":"https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"}
+
                   />
                 </div>
               </div>
