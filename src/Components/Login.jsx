@@ -82,7 +82,7 @@ function Login() {
 
     try {
       const result = await axios.post(
-        'http://localhost:7777/auth/login',
+        `${BASE_USL}/auth/login`,
         {
           email: emailID,
           password,
