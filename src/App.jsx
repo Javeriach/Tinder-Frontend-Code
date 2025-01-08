@@ -10,9 +10,10 @@ import Feed from './Components/Feed';
 import Connections from './Components/Connections/Connections';
 import Requests from './Components/Requests/Requests';
 import HomePage from './Components/HomePage';
-
+console.log("hello");
 function App() {
   return (
+    
     <>
       <Provider store={AppStore}>
         <BrowserRouter basename="/">
@@ -23,7 +24,8 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/connections" element={<Connections />} />
-              <Route path="/requests" element={<Requests/>} />
+              <Route path="/requests" element={<Requests />} />
+              
             </Route>
           </Routes>
         </BrowserRouter>
