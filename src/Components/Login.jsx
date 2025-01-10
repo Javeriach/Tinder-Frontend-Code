@@ -144,7 +144,7 @@ function Login() {
 
           {!loginFrom && !forgetPassword && (
             <>
-              <label className="input input-bordered flex items-center  w-full">
+              <label className="input input-bordered flex items-center gap-2 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -155,12 +155,12 @@ function Login() {
                 </svg>
                 <input
                   type="text"
-                  className="grow text-white"
+                  className="w-full text-white"
                   placeholder="First Name"
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </label>
-              <label className="input input-bordered flex items-center  w-full">
+              <label className="input input-bordered flex items-center gap-2 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -171,7 +171,7 @@ function Login() {
                 </svg>
                 <input
                   type="text"
-                  className="grow text-white"
+                  className="w-full text-white"
                   placeholder="Last Name"
                   onChange={(e) => setLastName(e.target.value)}
                 />
@@ -180,7 +180,7 @@ function Login() {
           )}
 
           <label
-            className={`input input-bordered flex items-center  w-full ${
+            className={`input input-bordered flex items-center gap-2 w-full ${
               loginFrom && !forgetPassword && 'mt-3'
             } text-white`}
           >
@@ -195,14 +195,14 @@ function Login() {
             </svg>
             <input
               type="text"
-              className="grow"
+              className="w-full"
               placeholder="Email"
               value={emailID}
               onChange={(e) => setEmailID(e.target.value)}
             />
           </label>
           <div>
-            <label className="input input-bordered flex items-center  text-white w-full">
+            <label className="input input-bordered flex items-center gap-2 text-white -full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
@@ -221,7 +221,7 @@ function Login() {
                     forgetPassword ? 'Enter new Password' : 'Password'
                   }
                   type={showPassword ? 'text' : 'password'}
-                  className="grow bg-pink-900"
+                  className="w-full bg-pink-900"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
