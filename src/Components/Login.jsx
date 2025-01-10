@@ -156,12 +156,12 @@ export default function Login() {
                 >
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                 </svg>
-                <input
+                {/* <input
                   type="text"
                   className="w-auto text-white"
                   placeholder="First Name"
                   onChange={(e) => setFirstName(e.target.value)}
-                />
+                /> */}
               </label>
               <label className="input input-bordered flex items-center gap-2 w-full">
                 <svg
@@ -172,12 +172,12 @@ export default function Login() {
                 >
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                 </svg>
-                <input
+                {/* <input
                   type="text"
                   className="w-auto text-white"
                   placeholder="Last Name"
                   onChange={(e) => setLastName(e.target.value)}
-                />
+                /> */}
               </label>
             </>
           )}
@@ -196,13 +196,13 @@ export default function Login() {
               <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
               <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
             </svg>
-            <input
+            {/* <input
               type="text"
               className="w-auto"
               placeholder="Email"
               value={emailID}
               onChange={(e) => setEmailID(e.target.value)}
-            />
+            /> */}
           </label>
           <div>
             <label className="input input-bordered flex items-center gap-2 text-white -full">
@@ -219,7 +219,7 @@ export default function Login() {
                 />
               </svg>
               <div className="flex">
-                <input
+                {/* <input
                   placeholder={
                     forgetPassword ? 'Enter new Password' : 'Password'
                   }
@@ -227,7 +227,7 @@ export default function Login() {
                   className="w-auto bg-pink-900"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                />
+                /> */}
                 {!showPassword ? (
                   <VisibilityIcon
                     className="text-white mt-1 cursor-pointer"
