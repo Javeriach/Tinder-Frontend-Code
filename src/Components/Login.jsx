@@ -144,7 +144,7 @@ function Login() {
 
           {!loginFrom && !forgetPassword && (
             <>
-              <label className="input input-bordered flex items-center gap-2 w-full">
+              <label className="input input-bordered flex items-center  w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -160,7 +160,7 @@ function Login() {
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </label>
-              <label className="input input-bordered flex items-center gap-2 w-full">
+              <label className="input input-bordered flex items-center  w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -180,7 +180,7 @@ function Login() {
           )}
 
           <label
-            className={`input input-bordered flex items-center gap-2 w-full ${
+            className={`input input-bordered flex items-center  w-full ${
               loginFrom && !forgetPassword && 'mt-3'
             } text-white`}
           >
@@ -202,7 +202,7 @@ function Login() {
             />
           </label>
           <div>
-            <label className="input input-bordered flex items-center gap-2 text-white w-full">
+            <label className="input input-bordered flex items-center  text-white w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
