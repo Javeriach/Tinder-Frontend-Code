@@ -1,1 +1,1 @@
-export let BASE_USL = '/api';
+export let BASE_USL = 'http://localhost:8888';

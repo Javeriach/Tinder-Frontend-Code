@@ -53,7 +53,7 @@ function Navbar() {
         <div className="flex-none gap-2">
           {user?.firstName && (
             <label className="font-semibold text-1xl">
-              Hi! {user.toString() ? firstName : ''}{' '}
+              Hi! {user.toString() ? user.firstName : ''}
             </label>
           )}
           <div className="form-control"></div>
