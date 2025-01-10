@@ -54,7 +54,7 @@ function Navbar() {
         </div>
         <div className="flex-none gap-2">
           {user?.firstName && (
-            <label className="font-semibold text-1xl">Hi! {firstName} </label>
+            <label className="font-semibold text-1xl">Hi! {firstName?firstName:""} </label>
           )}
           <div className="form-control"></div>
           {user && (
