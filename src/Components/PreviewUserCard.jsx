@@ -3,7 +3,7 @@ function PreviewUserCard({ user }) {
 
   
     return (
-        <div className="bg-black h-[640px] w-[350px]">
+        <div className="bg-black h-[640px] w-[350px] mt-2 md:mt-0">
         <figure >
           <img
             className="w-[350px] h-[440px]"

@@ -12,6 +12,8 @@ import tinder from '../Images/tinder.png';
 
 function Navbar() {
   const user = useSelector((store) => store.user);
+  let { firstName, lastName, about, age, gender, photoUrl, _id } = user;
+
   let dispatch = useDispatch();
   let navigate = useNavigate();
   const currentRoute = useLocation();
@@ -52,7 +54,7 @@ function Navbar() {
         </div>
         <div className="flex-none gap-2">
           {user?.firstName && (
-            <label className="font-semibold text-1xl">Hi! {user.firstName} </label>
+            <label className="font-semibold text-1xl">Hi! {firstName} </label>
           )}
           <div className="form-control"></div>
           {user && (
@@ -65,7 +67,7 @@ function Navbar() {
                 <div className="w-12 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src={user?.photoUrl.length > 0? user?.photoUrl: user?.gender === 'female'? "https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg":"https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"}
+                    src={photoUrl?.length > 0? photoUrl: gender === 'female'? "https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg":"https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"}
 
                   />
                 </div>

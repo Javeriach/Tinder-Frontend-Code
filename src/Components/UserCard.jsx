@@ -20,9 +20,11 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
   const x = useMotionValue(0);
   let [isLoading, setLoading] = useState(false);
   const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
+
+  // Setting the rotation 
   const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
   const rotate = useTransform(() => {
-    const offset = index == feedArray?.length - 1 ? 0 : index % 2 ? 6 : -6;
+    const offset = 0;
     return `${rotateRaw.get() + offset}deg`;
   });
 
@@ -64,7 +66,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
   }
   else return (
     <motion.div
-      className={`card max-[800px]:mt-3  origin-center  rounded-2xl bg-gray-950  h-[500px] w-[300px]  md:h-[640px] md:w-[350px] hover:cursor-grab active:cursor-grabbing
+      className={`card mt-0 md:mt-3  origin-center  rounded-2xl bg-gray-950  h-[570px] w-[320px]  md:h-[640px] md:w-[350px] hover:cursor-grab active:cursor-grabbing
         ${index == feedArray?.length - 1 ? "shadow-md shadow-red-500" : "" }`}
       style={{
         gridRow: 1,
@@ -83,14 +85,9 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
 
       <motion.img
         onDragStart={(e) => e.preventDefault()}
-        className="h-[350px] w-full md:w-[350px] md:h-[440px] rounded-t-2xl"
-        src={
-          photoUrl
-            ? photoUrl
-            : gender === 'female'
-            ? 'https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg'
-            : 'https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg'
-        }
+        className="h-[350px] w-full md:w-[470px] md:h-[440px] rounded-t-2xl"
+        src={photoUrl?.length > 0? photoUrl: gender === 'female'? "https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg":"https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"}
+
         alt={firstName}
       />
       <div className="card-body pt-0 mt-2">
