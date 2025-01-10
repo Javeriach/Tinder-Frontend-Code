@@ -6,13 +6,19 @@ import { removeSelectedUserFromFeed } from '../utiles/Slices/feedSlice';
 import {
   motion,
   useMotionValue,
-  useMotionValueEvent,
   useTransform,
 } from 'framer-motion';
+import { useState } from 'react';
+// import { UserCardSkeletion } from '@/ReuseAble_Components/UserCardSkeletion';
+import loading from "../utiles/Lotties/Loading.json";
+import Lottie from 'lottie-react/build';
 
 function UserCard({ feeduser: user, feed, index, feedArray }) {
+
+
   let dispatch = useDispatch();
   const x = useMotionValue(0);
+  let [isLoading, setLoading] = useState(false);
   const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
   const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
   const rotate = useTransform(() => {
@@ -36,6 +42,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
       return;
     }
 
+    setLoading(true);
     try {
       let response = await axios.post(
         BASE_USL + '/request/send/' + status + '/' + _id,
@@ -46,12 +53,18 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
     } catch (error) {
       toast.error('Something went wrong');
       throw new Error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
+  if (isLoading){ return <div className='absolute'>
+    <Lottie className='h-[100px]' animationData={ loading}  />
+  </div>
+  }
+  else return (
     <motion.div
-      className={`card max-[800px]:mt-3   origin-center  rounded-2xl bg-gray-950  h-[640px] w-[350px] hover:cursor-grab active:cursor-grabbing
+      className={`card max-[800px]:mt-3  origin-center  rounded-2xl bg-gray-950  h-[500px] w-[300px]  md:h-[640px] md:w-[350px] hover:cursor-grab active:cursor-grabbing
         ${index == feedArray?.length - 1 ? "shadow-md shadow-red-500" : "" }`}
       style={{
         gridRow: 1,
@@ -70,7 +83,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
 
       <motion.img
         onDragStart={(e) => e.preventDefault()}
-        className="w-[350px] h-[440px] rounded-t-2xl"
+        className="h-[350px] w-full md:w-[350px] md:h-[440px] rounded-t-2xl"
         src={
           photoUrl
             ? photoUrl

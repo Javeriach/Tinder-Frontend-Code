@@ -44,7 +44,7 @@ function Feed() {
   },[]);
 
   return (
-    <div className="justify-center bg-lime-700 py-11 min-h-screen h-full pt-[100px] grid place-items-center"  style={{background: `linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)`}}>
+    <div className="md:justify-center bg-lime-700 py-11 min-h-screen h-full pt-[100px] grid place-items-center"  style={{background: `linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)`}}>
       {
         loading?<UserCardSkeletion/>:feed.length === 0 ?<h1 className='mt-10 text-white text-center'>No More Users Found!!</h1>:
           feed?.map((feeduser,index) =>(

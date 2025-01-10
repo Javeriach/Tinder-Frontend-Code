@@ -3,7 +3,7 @@ import { Skeleton } from "@/ShadCn UI/skeleton"
 export function UserCardSkeletion() {
   return (
     
-    <div className="card max-[800px]:mt-3 rounded-lg shadow-2xl   h-[640px] w-[350px]">
+    <div className="card max-[800px]:mt-3 rounded-lg bg-base-100 h-[500px] w-[350px]">
           <Skeleton className="w-[350px] h-[440px]"/>
           <div className="card-body flex flex-col gap-2">
               
@@ -14,10 +14,7 @@ export function UserCardSkeletion() {
               </div>
           
         
-          <div className="card-actions justify-between">
-            <Skeleton className="w-[100px] h-[50px]"/>
-            <Skeleton className="w-[100px] h-[50px]" />
-          </div>
+        
           
         </div>
       </div>
