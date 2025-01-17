@@ -1,2 +1,2 @@
-// export let BASE_USL = 'http://localhost:8888';
-export let BASE_USL = '/api';
+export let BASE_USL =
+  location.hostname === 'localhost' ? 'http://localhost:8888' : '/api';

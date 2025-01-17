@@ -32,7 +32,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
   let { firstName, lastName, about, age, gender, photoUrl, _id } = user;
 
   if (about.length > 200) {
-    about = about.substring(0, 50);
+    about = about.substring(0, 180);
     about = about + '...';
   }
 

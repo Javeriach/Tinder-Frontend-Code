@@ -38,9 +38,8 @@ function Feed() {
   };
 
   useEffect(() => {
-   
+    if(user.toString())
       fetchFeed();
-    
   },[]);
 
   return (
@@ -48,7 +47,7 @@ function Feed() {
       {
         loading?<UserCardSkeletion/>:feed.length === 0 ?<h1 className='mt-10 text-white text-center'>No More Users Found!!</h1>:
           feed?.map((feeduser,index) =>(
-                <UserCard feeduser={feeduser} index={index} feed={true} feedArray={feed} />
+                <UserCard key={index} feeduser={feeduser} index={index} feed={true} feedArray={feed} />
           )
           )
           

@@ -1,6 +1,10 @@
 function PreviewUserCard({ user }) {
-    let { firstName, lastName, about, age, gender, photoUrl, _id } = user;
-
+  let { firstName, lastName, about, age, gender, photoUrl, _id } = user;
+  
+  if (about.length >= 160 ) {
+    about = about.substring(0, 150);
+    about = about + '...';
+  }
   
     return (
         <div className="bg-black h-[640px] w-[350px] mt-2 md:mt-0">
@@ -13,7 +17,7 @@ function PreviewUserCard({ user }) {
         <div className="card-body pt-0 mt-2">
           
           <h2 className="card-title fw-bold">{firstName + " " + lastName} </h2>
-          <p className="text-[15px] font-semibold w-full  h-fit">{about}</p> 
+          <p className="text-[15px] font-semibold w-full   ">{about}</p> 
           { age && gender && <p>Gender {gender} , Age: {age}</p>}
         
         </div>

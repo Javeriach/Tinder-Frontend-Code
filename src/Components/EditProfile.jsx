@@ -109,7 +109,7 @@ function EditProfile() {
             <span className="label-text">What is your about?</span>
           </div>
           <textarea
-            maxLength={100}
+            maxLength={180}
             placeholder="About"
             value={about}
             onChange={(e) => setAbout(e.target.value)}
