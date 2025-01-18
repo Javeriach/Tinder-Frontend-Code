@@ -16,6 +16,7 @@ function Navbar() {
   let navigate = useNavigate();
   const currentRoute = useLocation();
 
+  //FUNCTION TO HANDLE LOGOUT
   let handleLogout = async () => {
     if (!user) return;
     try {
@@ -57,7 +58,7 @@ function Navbar() {
             </label>
           )}
           <div className="form-control"></div>
-          {user && (
+          {user?.toString() && (
             <div className="dropdown dropdown-end ">
               <div
                 tabIndex={0}

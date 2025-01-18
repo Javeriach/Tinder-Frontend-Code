@@ -6,12 +6,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addConnections } from '../../utiles/Slices/connections';
 import SingleConnection from './SingleConnection';
 import { ConnectionSkeleton} from '@/ReuseAble_Components/ConnectionSkeleton';
+import { User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 function Connections() {
   let dispatch = useDispatch();
   let connections = useSelector((store) => store.connections);
   let [loading, setLoading] = useState(false);
-
+  const user = useSelector(store => store.user);
+  let navigate = useNavigate();
   let fetchConnections = async () => {
     try {
       setLoading(true);
@@ -31,9 +34,12 @@ function Connections() {
   };
 
   useEffect(() => {
+    if (!user?.toString()) navigate("/login");
+    else
     fetchConnections();
   }, []);
 
+  if (!user?.toString()) navigate("/login");
 
  
     

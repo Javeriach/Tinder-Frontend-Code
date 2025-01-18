@@ -30,7 +30,7 @@ function Body() {
   };
 
   useEffect(() => {
-    if (!user)
+    if (!user?.toString())
     {
       fetchUser();
     }

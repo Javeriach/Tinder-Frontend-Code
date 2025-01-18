@@ -1,7 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 function PreviewUserCard({ user }) {
+  let navigate = useNavigate();
+
+  if (!user.toString() || user==null) navigate("/login");
   let { firstName, lastName, about, age, gender, photoUrl, _id } = user;
   
-  if (about.length >= 160 ) {
+  if (about?.length >= 160 ) {
     about = about.substring(0, 150);
     about = about + '...';
   }

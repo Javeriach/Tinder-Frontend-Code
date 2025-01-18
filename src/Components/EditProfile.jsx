@@ -6,6 +6,7 @@ import { BASE_USL } from '../utiles/constants/constant';
 import toast from 'react-hot-toast';
 import { addUser } from '../utiles/Slices/userSlice';
 import PreviewUserCard from './PreviewUserCard';
+import { useNavigate } from 'react-router-dom';
 
 function EditProfile() {
   let user = useSelector((store) => store.user);
@@ -17,7 +18,10 @@ function EditProfile() {
   let [gender, setGender] = useState(user?.gender ? user.gender : "male");
   let [photoUrl, setPhotoUrl] = useState(user?.photoUrl ? user?.photoUrl : "");
   let [error, setError] = useState("");
+  let navigate = useNavigate();
 
+  if (!user?.toString()) navigate("/login");
+  
   let saveProfileHandler = async () => {
     setError("");
     if (firstName.length < 5 || firstName.length > 50)
@@ -142,10 +146,10 @@ function EditProfile() {
                 Male
               </option>
               <option value={"female"}>
-                <a>Female</a>
+                Female
               </option>
               <option value={"other"}>
-                <a>Other</a>
+                Other
               </option>
            
           </select>

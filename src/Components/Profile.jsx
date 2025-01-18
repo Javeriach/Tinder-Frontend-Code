@@ -7,7 +7,7 @@ function Profile() {
     let navigate = useNavigate();
     let user = useSelector(store => store.user);
 
-    if (!user) {
+    if (!user.toString() || user==null) {
         navigate("/login");
         return;
     }

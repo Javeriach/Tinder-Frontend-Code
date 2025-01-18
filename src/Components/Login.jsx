@@ -25,6 +25,7 @@ export default function Login() {
   let [error, setError] = useState('');
   let [showPassword, setShowPassword] = useState(false);
 
+  //FUNCTION TO HANDLE SIGNUP
   const handleSignUp = async () => {
     if (error) setError('');
 
@@ -73,6 +74,7 @@ export default function Login() {
     }
   };
 
+  //FUNCTION TO HANDLE LOGIN
   const loginHandler = async () => {
     if (error) setError('');
 
@@ -103,6 +105,8 @@ export default function Login() {
     }
   };
 
+
+  //FUNCTION TO HANDLE FORGET PASSWORD
   let handleForgetPassword = async () => {
     try {
       setError('');
