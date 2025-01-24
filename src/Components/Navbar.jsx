@@ -101,6 +101,9 @@ function Navbar() {
                 <li>
                   <Link to={'/requests'}>Friend Requests</Link>
                 </li>
+                <li>
+                  <Link to={'/premium'}>Premium</Link>
+                </li>
 
                 <li>
                   <a onClick={handleLogout}>Logout</a>

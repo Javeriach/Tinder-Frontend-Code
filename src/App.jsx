@@ -10,8 +10,18 @@ import Feed from './Components/Feed';
 import Connections from './Components/Connections/Connections';
 import Requests from './Components/Requests/Requests';
 import HomePage from './Components/HomePage';
+import BuySubscription from './Components/Subscription/BuySubscription';
 console.log("hello");
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+
+
 function App() {
+  useEffect(() => {
+    // ..
+AOS.init();
+  }, []);
   return (
     
     <>
@@ -25,7 +35,7 @@ function App() {
               <Route path="/feed" element={<Feed />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
-              
+              <Route path="/premium" element={<BuySubscription />} />
             </Route>
           </Routes>
         </BrowserRouter>
