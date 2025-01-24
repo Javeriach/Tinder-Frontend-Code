@@ -3,8 +3,41 @@ import FreePlanCard from './FreeCard';
 import GoldSubscriptionCard from './GoldenCard';
 import PremiumCard from './PremiumCard';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 function BuySubscription() {
-  let subscriptionHandler = async (type, benefits) => {
+
+  const [isPremium, setIsPremium] = useState(false);
+  const user = useSelector(store => store.user);
+
+  useEffect(() =>
+  {
+    if (user!= null && !(user?.toString() === ""))
+    {
+      if (user.isPremium === true) {
+        console.log(user);
+        setIsPremium(true);
+      }
+    }
+  }, []);
+
+  const verifyPrimiumUser = async (req, res)=>
+{
+    try { 
+      const userPrimiumData = await axios.get(BASE_USL + "/premium/verify", { withCredentials: true });
+      if (userPrimiumData.data.isPremium)
+      {
+        setIsPremium(true);
+      }
+    }
+    catch (error)
+    {
+      throw new Error("Something went wrong!");
+    }
+  }
+
+  //FUNCTION TO HANDLE THE SUBSCRIPTION
+  let subscriptionHandler = async (type, benefits) => { 
     try {
       const order = await axios.post(BASE_USL + '/payment/create', {
         membershipType: type,
@@ -14,7 +47,7 @@ function BuySubscription() {
 
       //DESTRUCTURE ORDER DETAILS FOR CONVIENCE
       const { orderId, notes, keyId, amount, currency } = order.data;
-      console.log(orderId);
+    
       //OPTIONS-DATA THAT WILL DISPLAY ON RAZORPAY DIALOGUE BOX
        // Open Razorpay Checkout
        const options = {
@@ -33,6 +66,7 @@ function BuySubscription() {
         theme: {
           color: '#0000FF'
         },
+        handler:verifyPrimiumUser
       };
       //NOW RAZORPAY DIALOGUE BOX WILL OPEN NOW
       const rzp = new window.Razorpay(options);
@@ -42,9 +76,9 @@ function BuySubscription() {
       console.log(error);
     }
   };
-
+  console.log(isPremium);
   return (
-    <div className="pt-[100px] h-full lg:h-screen w-full flex justify-center pb-6 ">
+     isPremium? <div className='flex w-screen flex-col items-center pt-[100px] lg:flex-row  h-screen lg:justify-center text-black'>You are a Premium User</div>: <div className="pt-[100px] h-full lg:h-screen w-full flex justify-center pb-6 ">
       <div className="flex w-screen flex-col items-center lg:flex-row  h-auto lg:justify-center">
         <div className="card rounded-box grid  w-fit place-items-center">
           <FreePlanCard subscriptionHandler={subscriptionHandler} />
