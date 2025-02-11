@@ -66,7 +66,7 @@ function MessageInputBar() {
     }
 
     setNemMessage({
-      id:crypto.randomUUID(),text:""
+      id:"",text:""
     });
     setImagePreview("");
   };
