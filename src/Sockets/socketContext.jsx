@@ -30,23 +30,24 @@ export const SocketProvider = ({ children }) => {
     {
       if (location.hostname == "localhost")
         {
-          tempSocket = io(BASE_USL,{
+          return io(BASE_USL,{
             query:{userId:userId}
           });
         }
         else {
-          tempSocket = io("/",{path:"/api/socket.io/"},{
+        return io("/", {
+            path:"/api/socket.io/",
             query:{userId:userId}
           });
         }
     
     }
-    
-    
-    const tempSocket = handleSocket;
+    const tempSocket = handleSocket();
     tempSocket.connect();
     setSocket(tempSocket);
   };
+
+  console.log(location.hostname);
 
   const disconnectSocket = () => {
     socket?.disconnect();
