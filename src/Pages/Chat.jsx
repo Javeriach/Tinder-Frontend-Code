@@ -35,10 +35,10 @@ function Chat() {
   );}
 
 
-  if(!targetUserId && !currentChatData?.firstName && !contactsData?.length)
-    return <div className="flex h-[100vh] bg-white ">
-     <EmptyChatContainer />
-    </div>
+  // if(!targetUserId && !currentChatData?.firstName && !contactsData?.length)
+  //   return <div className="flex h-[100vh] bg-white ">
+  //    <EmptyChatContainer />
+  //   </div>
   
   
   return (
