@@ -1,10 +1,11 @@
 import { BASE_USL } from '@/utiles/constants/constant';
-import FreePlanCard from './FreeCard';
-import GoldSubscriptionCard from './GoldenCard';
-import PremiumCard from './PremiumCard';
+import FreePlanCard from '../Components/Subscription/FreeCard';
+import GoldSubscriptionCard from '../Components/Subscription/GoldenCard';
+import PremiumCard from '../Components/Subscription/PremiumCard';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 function BuySubscription() {
 
   const [isPremium, setIsPremium] = useState(false);
@@ -15,7 +16,6 @@ function BuySubscription() {
     if (user!= null && !(user?.toString() === ""))
     {
       if (user.isPremium === true) {
-        console.log(user);
         setIsPremium(true);
       }
     }
@@ -43,7 +43,6 @@ function BuySubscription() {
         membershipType: type,
         benefits: benefits,
       },{withCredentials:true});
-      console.log(order);
 
       //DESTRUCTURE ORDER DETAILS FOR CONVIENCE
       const { orderId, notes, keyId, amount, currency } = order.data;
@@ -71,12 +70,10 @@ function BuySubscription() {
       //NOW RAZORPAY DIALOGUE BOX WILL OPEN NOW
       const rzp = new window.Razorpay(options);
       rzp.open();
-      console.log("Hello jea");
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(isPremium);
   return (
      isPremium? <div className='flex w-screen flex-col items-center pt-[100px] lg:flex-row  h-screen lg:justify-center text-black'>You are a Premium User</div>: <div className="pt-[100px] h-full lg:h-screen w-full flex justify-center pb-6 ">
       <div className="flex w-screen flex-col items-center lg:flex-row  h-auto lg:justify-center">

@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { BASE_USL } from '../utiles/constants/constant';
 import { useDispatch } from 'react-redux';
-import { removeSelectedUserFromFeed } from '../utiles/Slices/feedSlice';
+import { removeSelectedUserFromFeed } from '../Redux/Slices/feedSlice';
 import {
   motion,
   useMotionValue,
@@ -12,6 +12,8 @@ import { useState } from 'react';
 import loading from "../utiles/Lotties/Loading.json";
 import Lottie from 'lottie-react/build';
 import { useNavigate } from 'react-router-dom';
+import blueTick from "../Images/blueTick.png";
+
 
 function UserCard({ feeduser: user, feed, index, feedArray }) {
 
@@ -31,9 +33,8 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
 
 
     if (!user.toString() || user==null) navigate("/login");
-  let { firstName, lastName, about, age, gender, photoUrl, _id } = user;
+  let { firstName, lastName, about, age, gender, photoUrl, _id,isPremium } = user;
   
-  console.log(user);
   if (about.length > 200) {
     about = about.substring(0, 180);
     about = about + '...';
@@ -95,7 +96,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
         alt={firstName}
       />
       <div className="p-5 pt-2  mt-2">
-        <h2 className="card-title fw-bold">{firstName + ' ' + lastName} </h2>
+        <h2 className="card-title fw-bold">{firstName + ' ' + lastName} {isPremium ? <img className='h-[25px] w-[25px] me-2' src={blueTick} />: ""} </h2>
         <p className="h-fit text-[14px] mt-1 bg-green font-semibold">{about}</p>
         <div className='flex mt-1  gap-2'>
         {age && (

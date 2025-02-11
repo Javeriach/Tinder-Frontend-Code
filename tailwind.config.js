@@ -1,11 +1,44 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from 'daisyui';
+const flowbite = require('flowbite-react/tailwind');
 
 export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
     extend: {
+      keyframes: {
+        'fade-in': { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        'fade-out': { '0%': { opacity: '1' }, '100%': { opacity: '0' } },
+        'slide-in-from-right': {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'slide-out-to-right': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'slide-in-from-left': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'slide-out-to-left': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.3s ease-out',
+        'fade-out': 'fade-out 0.3s ease-out',
+        'slide-in-from-right': 'slide-in-from-right 0.3s ease-out',
+        'slide-out-to-right': 'slide-out-to-right 0.3s ease-out',
+        'slide-in-from-left': 'slide-in-from-left 0.3s ease-out',
+        'slide-out-to-left': 'slide-out-to-left 0.3s ease-out',
+      },
+      fontFamily: {
+        poppins: ['Poppins', 'serif'],
+        Roboto: ['Roboto', 'serif'],
+      },
       backgroundImage: {
         'custom-gradient':
           'linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)',

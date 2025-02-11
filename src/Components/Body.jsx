@@ -3,26 +3,38 @@ import Navbar from './Navbar';
 import toast, { Toaster } from 'react-hot-toast';
 import { BASE_USL } from '../utiles/constants/constant';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../utiles/Slices/userSlice';
-import { useEffect } from 'react';
+import { addUser } from '../Redux/Slices/userSlice';
+import { useContext, useEffect } from 'react';
 import axios from 'axios';
-
+import SocketContext from '@/Sockets/socketContext';
 function Body() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(store => store.user);
+  const {socket,disconnectSocket,connectSocket} = useContext(SocketContext);
+
+  useEffect(() => {
+
+    return () => {
+      disconnectSocket() //IT WILL DISCONNECT THE SOCKET CONNECTION
+    };
+  }, []);
+
 
   const fetchUser = async () => {
     try {
       const user = await axios.get(`${BASE_USL}/profile/view`, {
         withCredentials: true,
       });
-        dispatch(addUser(user.data));
-        navigate("/feed");
+      dispatch(addUser(user.data));
+      connectSocket(user.data._id); //IT WILL CONNECT THE SOCKET CONNECTION
+      navigate("/feed");
     } catch (error) {
+      console.log(error);
       if (error.status === 401) {
         navigate('/');
       } else {
+        
         toast.error('Something went wrong!!');
         throw new Error('Something  went wrong!!');
       }

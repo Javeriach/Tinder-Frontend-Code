@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import UserCard from './UserCard';
+import UserCard from '../Components/UserCard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASE_USL } from '../utiles/constants/constant';
-import { addFeed } from '../utiles/Slices/feedSlice';
+import { addFeed } from '../Redux/Slices/feedSlice';
 import { UserCardSkeletion } from '@/ReuseAble_Components/UserCardSkeletion';
 
 

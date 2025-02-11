@@ -1,18 +1,22 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BASE_USL } from '../utiles/constants/constant';
 import toast from 'react-hot-toast';
-import { removeUser } from '../utiles/Slices/userSlice';
+import { removeUser } from '../Redux/Slices/userSlice';
 import { useDispatch } from 'react-redux';
-import { removeConnections } from '../utiles/Slices/connections';
-import { removeRequests } from '../utiles/Slices/requests';
-import { removeFeed } from '../utiles/Slices/feedSlice';
+import { removeConnections } from '../Redux/Slices/connections';
+import { removeRequests } from '../Redux/Slices/requests';
+import { removeFeed } from '../Redux/Slices/feedSlice';
 import tinder from '../Images/tinder.png';
-
+import SocketContext from '@/Sockets/socketContext';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';import { useContext } from 'react';
+import { Sheet } from '@/ShadCn UI/sheet';
+import Notifications from './Notifications';
 function Navbar() {
   const user = useSelector((store) => store.user);
-  let dispatch = useDispatch();
+  const {disconnectSocket,socket} = useContext(SocketContext);
+ let dispatch = useDispatch();
   let navigate = useNavigate();
   const currentRoute = useLocation();
 
@@ -31,9 +35,11 @@ function Navbar() {
       dispatch(removeConnections());
       dispatch(removeRequests());
       dispatch(removeFeed());
+     socket? disconnectSocket():"";// ----------TO disconnect the socket
       navigate('/login');
       toast.success('Logout Successfully!!');
     } catch (err) {
+      console.log(err);
       toast.error('Logout Failed!!');
     }
   };
@@ -51,12 +57,19 @@ function Navbar() {
             <h1 className="font-bold">Tinder</h1>
           </Link>
         </div>
-        <div className="flex-none gap-2">
+
+        <div className=' flex w-[100px] md:w-[200px]   justify-between'>
+{         user && <Notifications/>
+}        <div className="items-center gap-2 flex">
           {user?.firstName && (
-            <label className="font-semibold text-1xl">
+            <label className=" hidden md:block -semibold text-1xl">
               Hi! {user.toString() ? user.firstName : ''}
             </label>
           )}
+
+         
+
+        
           <div className="form-control"></div>
           {user?.toString() && (
             <div className="dropdown dropdown-end ">
@@ -67,7 +80,7 @@ function Navbar() {
               >
                 <div className="w-12 rounded-full">
                   <img
-                    alt="Tailwind CSS Navbar component"
+                    alt={  user.toString() ? user.firstName : ''}
                     src={
                       user?.toString()
                         ? user.photoUrl?.length > 0
@@ -83,7 +96,14 @@ function Navbar() {
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-              >
+                >
+                  <li className='md:hidden'>
+                  <Link className="justify-between" to={'/profile'}>
+                   Hi! {user.toString() ? user.firstName : ''}
+                    <span className="badge">You</span>
+                  </Link>
+                  </li>
+                  
                 <li>
                   <Link className="justify-between" to={'/profile'}>
                     My Profile
@@ -106,12 +126,17 @@ function Navbar() {
                 </li>
 
                 <li>
+                  <Link to={'/chat'}>Chats</Link>
+                </li>
+
+                <li>
                   <a onClick={handleLogout}>Logout</a>
                 </li>
               </ul>
             </div>
           )}
-        </div>
+          </div>
+          </div>
       </div>
     </div>
   );

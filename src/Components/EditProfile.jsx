@@ -4,12 +4,13 @@ import { useState } from 'react';
 import axios from 'axios';
 import { BASE_USL } from '../utiles/constants/constant';
 import toast from 'react-hot-toast';
-import { addUser } from '../utiles/Slices/userSlice';
+import { addUser } from '../Redux/Slices/userSlice';
 import PreviewUserCard from './PreviewUserCard';
 import { useNavigate } from 'react-router-dom';
 
 function EditProfile() {
   let user = useSelector((store) => store.user);
+ 
   let dispatch = useDispatch();
   let [firstName, setFirstName] = useState(user?.firstName ? user.firstName : "");
   let [lastName, setLastName] = useState(user?.lastName ? user.lastName : "");
@@ -18,6 +19,7 @@ function EditProfile() {
   let [gender, setGender] = useState(user?.gender ? user.gender : "male");
   let [photoUrl, setPhotoUrl] = useState(user?.photoUrl ? user?.photoUrl : "");
   let [error, setError] = useState("");
+  
   let navigate = useNavigate();
 
   if (!user?.toString()) navigate("/login");
@@ -54,7 +56,6 @@ function EditProfile() {
         },
         { withCredentials: true }
       );
-      console.log(response.data.data);
       dispatch(addUser(response.data.data));
       toast.success('Profile saves successfully!!');
     } catch (error) {

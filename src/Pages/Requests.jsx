@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../../utiles/Slices/requests";
+import { addRequests } from "../Redux/Slices/requests";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_USL } from "../../utiles/constants/constant";
-import RequstedConnection from "./RequstedConnection";
+import { BASE_USL } from "../utiles/constants/constant";
+import RequstedConnection from "../Components/Requests/RequstedConnection";
 import { RequestSkeleton } from "@/ReuseAble_Components/RequestSkeleton";
 
 function Requests() {
@@ -20,7 +20,6 @@ function Requests() {
             { withCredentials: true }
         );
       dispatch(addRequests(requestResponse.data.data));
-      console.log(requestResponse.data.data);
     } catch (error) {
       console.log(error.message);
       toast.error('Something went wrong');

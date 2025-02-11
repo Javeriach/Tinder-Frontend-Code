@@ -4,8 +4,8 @@ import axios from 'axios';
 import { BASE_USL } from '../../utiles/constants/constant';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { addRequests } from '../../utiles/Slices/requests';
-import { addConnections } from '../../utiles/Slices/connections';
+import { addRequests } from '../../Redux/Slices/requests';
+import { addConnections } from '../../Redux/Slices/connections';
 
 function RequstedConnection({ fromUser, requestId,fetchRequests }) {
     let dispatch = useDispatch();
@@ -29,7 +29,6 @@ function RequstedConnection({ fromUser, requestId,fetchRequests }) {
             toast.success("Request " + status + "!!");
         } catch (error)
         {
-            console.log(error.message);
             toast.error("Something went wrong");
             throw new Error(error.message);
         }

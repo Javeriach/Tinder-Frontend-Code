@@ -1,29 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useContext,useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../utiles/Slices/userSlice';
+import { useDispatch, } from 'react-redux';
+import { addUser } from '../Redux/Slices/userSlice';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { BASE_USL } from '../utiles/constants/constant';
-import { removeConnections } from '../utiles/Slices/connections';
-import { removeFeed } from '../utiles/Slices/feedSlice';
-import { removeRequests } from '../utiles/Slices/requests';
+import { removeConnections } from '../Redux/Slices/connections';
+import { removeFeed } from '../Redux/Slices/feedSlice';
+import { removeRequests } from '../Redux/Slices/requests';
+import { useSelector } from 'react-redux';
 
+
+import SocketContext from '@/Sockets/socketContext';
 export default function Login() {
   let [emailID, setEmailID] = useState('');
   let [password, setPassword] = useState('');
   let navigate = useNavigate();
   let dispatch = useDispatch();
-  let [message, setMessage] = useState('');
-  let user = useSelector((store) => store.user);
   let [firstName, setFirstName] = useState('');
   let [lastName, setLastName] = useState('');
   let [loginFrom, setLoginForm] = useState(true);
   let [forgetPassword, setForgetPassword] = useState(false);
   let [error, setError] = useState('');
   let [showPassword, setShowPassword] = useState(false);
+  const { connectSocket } = useContext(SocketContext);
+  const user=useSelector(store=>store.user);
 
   //FUNCTION TO HANDLE SIGNUP
   const handleSignUp = async () => {
@@ -57,10 +60,13 @@ export default function Login() {
       );
       toast.success('LoginNow');
       dispatch(addUser(response.data));
-      navigate('/profile');
       dispatch(removeConnections());
       dispatch(removeFeed());
       dispatch(removeRequests());
+      connectSocket(response.data?._id); 
+
+      navigate('/profile');
+      // TO CONNECT THE SOCKET WHEN WE GET LOGGED IN
     } catch (error) {
       if (error.status === 400) {
         setError(error.response.data.message);
@@ -96,6 +102,7 @@ export default function Login() {
       dispatch(removeConnections());
       dispatch(removeFeed());
       dispatch(removeRequests());
+      connectSocket(result.data._id);//WE ARE CONNETING THE SOCKET
     } catch (error) {
       if (error.status === 400) {
         setError(error.response.data.message);
@@ -156,13 +163,13 @@ export default function Login() {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
                   fill="currentColor"
-                  className="h-4 w-4 opacity-100 text-white"
+                  className="h-4 w-4 opacity-100 text-white focus:border-none"
                 >
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                 </svg>
                 <input
                   type="text"
-                  className="w-[200px] text-white"
+                  className="w-[200px] text-white border-0 onfocus:border-none group-focus-visible:border-none active:outline-none"
                   placeholder="First Name"
                   onChange={(e) => setFirstName(e.target.value)}
                 />
