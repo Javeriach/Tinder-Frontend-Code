@@ -15,7 +15,7 @@ import toast from 'react-hot-toast';
 
 function MessageInputBar() {
   
-  const [newMessage, setNemMessage] = useState({ id: crypto.randomUUID(), text: "" });
+  const [newMessage, setNemMessage] = useState({ id:"", text: "" });
   const [image, setImage] = useState("");
   const [emojiPicker, setEmojiPicker] = useState(false);
   const emojiRef = useRef();
