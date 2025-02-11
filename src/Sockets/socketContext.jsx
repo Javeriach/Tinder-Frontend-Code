@@ -36,7 +36,7 @@ export const SocketProvider = ({ children }) => {
         }
         else {
         return io("/", {
-            path:"/api/socket.io/",
+            path:"/api/socket.io",
             query:{userId:userId}
           });
         }
