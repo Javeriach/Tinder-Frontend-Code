@@ -94,18 +94,19 @@ export const SocketProvider = ({ children }) => {
         toast.error('Network Error');
       };
   
+
       //HANDLER OF RECEIVE MESSAE HANDLER
       socket?.on('messageReceived', handleMessage);
       //Message in case of error
   
       socket?.on('ImageProblem', handleError);
+      
       //DON'T FORGET TO REMOVE THE LISTENER
       return () => {
         socket?.off('messageReceived', handleMessage);
       };
   });
   
-
   const disconnectSocket = () => {
     socket?.disconnect();
     setSocket(null);
