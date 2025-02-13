@@ -1,6 +1,6 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 
-function ImagePreview({ image: imageurl }) {
+function ImagePreview({removeImage, image: imageurl }) {
   
   if (!imageurl) return null;
   return (

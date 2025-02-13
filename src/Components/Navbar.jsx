@@ -107,7 +107,6 @@ function Navbar() {
                 <li>
                   <Link className="justify-between" to={'/profile'}>
                     My Profile
-                    <span className="badge">You</span>
                   </Link>
                 </li>
                 <li>

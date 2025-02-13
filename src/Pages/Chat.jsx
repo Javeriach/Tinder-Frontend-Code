@@ -9,7 +9,7 @@ import { removeNotification } from '../Redux/Slices/chatSlice';
 import message_loading from "../assests/message_loading.json";
 import Lottie from 'lottie-react';
 import SocketContext from '@/Sockets/socketContext';
-// import VoiceRecorder from '@/Components/Chat/SubFeatures/VoiceRecorder';
+
 
 function Chat() {
   let { targetUserId } = useParams();
@@ -36,9 +36,7 @@ function Chat() {
 
   useEffect(() =>
   {
-    console.log("Hello");
     setTargetUserId(targetUserId);
-
     return () => setTargetUserId("");
   }, [targetUserId]);
   
@@ -47,6 +45,7 @@ function Chat() {
   }, [window.innerWidth]);
 
   if (!user && !user?.toString()) navigate('/login');
+  console.log(contactsloading)
   if(contactsloading)
   {return (
     <div className="flex h-[100vh] bg-white justify-center items-center w-full ">
@@ -56,14 +55,8 @@ function Chat() {
       </>
       )
     </div>
-  );}
-
-
-  // if(!targetUserId && !currentChatData?.firstName && !contactsData?.length)
-  //   return <div className="flex h-[100vh] bg-white ">
-  //    <EmptyChatContainer />
-  //   </div>
-
+  );
+  }
   
   return (
     <div className="flex h-[90vh] bg-white ">

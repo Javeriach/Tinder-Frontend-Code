@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const user = useSelector(store => store.user);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const { currentChatData } = useSelector(store => store.chat);
+  const { currentChatData,contactsData } = useSelector(store => store.chat);
   const [targetUserId, setTargetUserId] = useState("");
 
   const dispatch = useDispatch();
@@ -71,17 +71,10 @@ export const SocketProvider = ({ children }) => {
           {
             return contact.roomId == msg.roomId;
           })
+          console.log(filtersContact);
           if (filtersContact?.length == 0)
             fetchContacts(dispatch);
-          // setMessages((ps) => [
-          //   ...ps,
-          //   {
-          //     text: msg.newMessage.text,
-          //     senderId: msg.newMessage.senderId,
-          //     imageURL: msg.newMessage.imageURL,
-          //     createdAt: msg.newMessage.createdAt,
-          //   },
-          // ]);
+          
         } else {
           fetchContacts(dispatch);
           dispatch(
@@ -118,7 +111,7 @@ export const SocketProvider = ({ children }) => {
     setSocket(null);
   };
   return (
-    <SocketContext.Provider value={{ socket, connectSocket, disconnectSocket,onlineUsers,setTargetUserId }}>
+    <SocketContext.Provider value={{ socket, connectSocket, disconnectSocket,onlineUsers,setTargetUserId}}>
       {children}
     </SocketContext.Provider>
   );

@@ -31,7 +31,7 @@ function Notifications() {
             />
           </svg>
           <div class="px-1 py-0.5 bg-blue-500 min-w-5 rounded-full text-center text-white text-xs absolute -top-2 -end-1 translate-x-1/4 text-nowrap">
-            <div class="absolute top-0 start-0 rounded-full -z-10 animate-ping bg-blue-400 w-full h-full"></div>
+            <div class={`absolute top-0 start-0 rounded-full -z-10 ${notifications?.length ? "animate-ping":""} bg-blue-400 w-full h-full`}></div>
             {notifications?.length}
           </div>
         </Link>

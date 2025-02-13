@@ -65,7 +65,7 @@ function MessagesContainer({ previousMessages }) {
 
   return (
     <div
-      className=" rounded-lg flex flex-col border-black  md:pb-[40px] space-y-2 px-2 bg-white h-[70vh] md:h-[63vh] 
+      className=" rounded-lg pb-[10px] flex flex-col border-black flex-1 md:pb-[40px] space-y-2 px-2 bg-white  
     w-full
   overflow-y-auto scrollbar-custom "
       ref={chatRef}

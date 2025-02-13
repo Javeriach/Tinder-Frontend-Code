@@ -11,20 +11,18 @@ function ContactsContainer() {
     (store) => store.chat
   );
   let [hideContacts, setHideContacts] = useState(false);
-  let dispatch = useDispatch();
   let { socket, onlineUsers } = useContext(SocketContext);
   let [windowWidth, setWindowWidth] = useState(window.innerWidth);
   let {targetUserId} = useParams();
 
   
-
-  console.log(currentChatData);
   //=======================SET THE WINDOW WIDTH============================================
 
   useEffect(() => {
     function reportWindowSize() {
+      if (windowWidth === window.innerWidth) return;
+      
       setWindowWidth(window.innerWidth);
-      console.log('hello');
       if (window.innerWidth < 900 && currentChatData?.length) {
         setHideContacts(true);
         console.log(window.innerWidth);

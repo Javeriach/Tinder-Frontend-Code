@@ -86,13 +86,13 @@ function MessageInputBar() {
   };
 
   return (
-    <div className="fixed bottom-0 w-full">
+    <div className="w-screen transition-all duration-300 ">
       {imagePreview && (
         <ImagePreview image={imagePreview} removeImage={removeImage} />
       )}
       <form
         onSubmit={sendMessageHandler}
-        className=" flex px-3 mb-6 gap-3 w-full"
+        className=" flex px-3 mb-6 gap-3 w-full "
       >
         <div className="flex w-[100%] md:w-[68%] bg-zinc-200 border-black border-[0.5px] text-black rounded-md items-center md:gap-5 md:pr-5">
           {/* Input Field */}

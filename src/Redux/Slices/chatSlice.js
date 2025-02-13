@@ -60,7 +60,7 @@ let chatSlice = createSlice({
       return { ...state, contactsData: action.payload };
     },
     setContactsLoading: (state, action) => {
-      return { ...state, contactloading: action.payload };
+      return { ...state, contactsloading: action.payload };
     },
     setMessageLoading: (state, action) => {
       return { ...state, messagesLoading: action.payload };
