@@ -11,6 +11,7 @@ import { BASE_USL } from '../../utiles/constants/constant';
 
 export const fetchContacts = async (dispatch) => {
   try {
+    dispatch(setContactsLoading(true));
     const response = await axios.get(`${BASE_USL}/contacts`, {
       withCredentials: true,
     });
@@ -18,6 +19,8 @@ export const fetchContacts = async (dispatch) => {
   } catch (error) {
     console.error('Error fetching contacts:', error.message);
     throw new Error('Failed to fetch contacts. Please try again later.');
+  } finally {
+    dispatch(setContactsLoading(false));
   }
 };
 

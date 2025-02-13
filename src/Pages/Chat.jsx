@@ -1,26 +1,50 @@
 import ChatsContainer from '@/Components/Chat/ChatsContainer/ChatsContainer';
 import ContactsContainer from '@/Components/Chat/ContactsContainer/ContactsContainer';
 import EmptyChatContainer from '@/Components/Chat/EmptyChatContainer/EmptyChatContainer';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import  {fetchMessages} from '@/Components/ApiFunctions/Chat-ApiFunctions';
-import { notificationsHandler, removeNotification } from '../Redux/Slices/chatSlice';
+import  {fetchContacts, fetchMessages} from '@/Components/ApiFunctions/Chat-ApiFunctions';
+import { removeNotification } from '../Redux/Slices/chatSlice';
+import message_loading from "../assests/message_loading.json";
+import Lottie from 'lottie-react';
+import SocketContext from '@/Sockets/socketContext';
 // import VoiceRecorder from '@/Components/Chat/SubFeatures/VoiceRecorder';
 
 function Chat() {
   let { targetUserId } = useParams();
-  const { currentChatData,contactsloading,contactsData} = useSelector((store) => store.chat);
+  const { currentChatData,contactsloading,contactsData,messagesLoading} = useSelector((store) => store.chat);
   const user = useSelector((store) => store.user);
   const navigate = useNavigate();
   let dispatch = useDispatch();
+  let { setTargetUserId } = useContext(SocketContext);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
+
+  //CALL TO FETCH THE CONTACTS  
+  useEffect(() => {
+    fetchContacts(dispatch);
+  }, []);
+
   //ONLY FETCH THE CHAT ON THE TARGETUSERID CHAT
   useEffect(() => {
     if (!targetUserId) return;
     fetchMessages(targetUserId, dispatch);
     dispatch(removeNotification(targetUserId));
   }, [targetUserId]);
+
+
+  useEffect(() =>
+  {
+    console.log("Hello");
+    setTargetUserId(targetUserId);
+
+    return () => setTargetUserId("");
+  }, [targetUserId]);
+  
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, [window.innerWidth]);
 
   if (!user && !user?.toString()) navigate('/login');
   if(contactsloading)
@@ -39,14 +63,14 @@ function Chat() {
   //   return <div className="flex h-[100vh] bg-white ">
   //    <EmptyChatContainer />
   //   </div>
-  
+
   
   return (
-    <div className="flex h-[100vh] bg-white ">
+    <div className="flex h-[90vh] bg-white ">
       (
       <>
         <ContactsContainer />
-        {(targetUserId && currentChatData)  ? (
+        {(targetUserId && (currentChatData || messagesLoading))  ? (
           <ChatsContainer />
         ) : (
           <EmptyChatContainer />

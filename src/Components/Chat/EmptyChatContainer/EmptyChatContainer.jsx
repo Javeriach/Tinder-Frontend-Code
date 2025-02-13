@@ -5,7 +5,7 @@ function EmptyChatContainer() {
     
 
     return (
-        <div className="flex-1 md:bg-white md:flex flex-col justify-center hidden items-center  duration-100">
+        <div className=" md:bg-white md:flex flex-col justify-center hidden  items-center  duration-100">
             <Lottie 
                 className="h-[200px]"
                 isClickToPauseDisabled={true}

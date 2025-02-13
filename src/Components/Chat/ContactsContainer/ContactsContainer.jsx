@@ -3,28 +3,49 @@ import SingleNotificationCard from './SignleNotificationCard';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SocketContext from '@/Sockets/socketContext';
-import { setHideContacts } from '@/Redux/Slices/chatSlice';
+import { useParams } from 'react-router-dom';
 
 function ContactsContainer() {
   let [contacts, setContacts] = useState([]);
-  let { currentChatData, contactsData,hideContacts } = useSelector((store) => store.chat);
+  let { currentChatData, contactsData} = useSelector(
+    (store) => store.chat
+  );
+  let [hideContacts, setHideContacts] = useState(false);
   let dispatch = useDispatch();
   let { socket, onlineUsers } = useContext(SocketContext);
+  let [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  let {targetUserId} = useParams();
+
+  
+
+  console.log(currentChatData);
+  //=======================SET THE WINDOW WIDTH============================================
 
   useEffect(() => {
-    fetchContacts(dispatch);
-  }, []);
+    function reportWindowSize() {
+      setWindowWidth(window.innerWidth);
+      console.log('hello');
+      if (window.innerWidth < 900 && currentChatData?.length) {
+        setHideContacts(true);
+        console.log(window.innerWidth);
+      } else setHideContacts(false);
+    }
+    // Trigger this function on resize
+    window.addEventListener('resize', reportWindowSize);
+    //  Cleanup for componentWillUnmount
+    return () => window.removeEventListener('resize', reportWindowSize);
+  }, [targetUserId]);
 
   useEffect(() => {
-    if (window.innerWidth < 900 && currentChatData) {
-      dispatch(setHideContacts(true));
-    } else dispatch(setHideContacts(false));
-    
-  }, [currentChatData, window.innerWidth]);
-
+    if (windowWidth < 900 && targetUserId) {
+      setHideContacts(true);
+      console.log(window.innerWidth);
+    } else setHideContacts(false);
+  }, [targetUserId]);
+  
   useEffect(() => {
     if (contactsData?.length) setContacts(contactsData);
-  }, [contactsData]);
+  }, [contactsData, windowWidth]);
 
   if (!contacts?.length) {
     return (

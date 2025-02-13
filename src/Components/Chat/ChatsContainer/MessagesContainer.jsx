@@ -1,15 +1,8 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {
-  currentChatMessageSetter,
-  notificationsHandler,
-  setHideContacts,
-} from '@/Redux/Slices/chatSlice';
-import { fetchContacts } from '@/Components/ApiFunctions/Chat-ApiFunctions';
 import SocketContext from '@/Sockets/socketContext';
 import saveAs from 'file-saver';
-import toast from 'react-hot-toast';
 
 function MessagesContainer({ previousMessages }) {
   const [messages, setMessages] = useState(previousMessages);
@@ -21,12 +14,19 @@ function MessagesContainer({ previousMessages }) {
   let [chatJoined, setJoinedChat] = useState(false);
   const { socket } = useContext(SocketContext);
 
-useEffect(() => {
+  useEffect(() => {
     //=======================SCROLL TO BOTTOM WHEN NEW MESSAGE ARRIVE================
+    console.log("scolling to boottom");
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
-}, [messages]);
+  }, [currentChatData]);
+
+  useEffect(() => {
+    //=======================SCROLL TO BOTTOM WHEN NEW MESSAGE ARRIVE================
+
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, []);
 
   useEffect(() => {
     //=======================TO JOIN THE CHAT ROOM============================================
@@ -36,73 +36,7 @@ useEffect(() => {
     }
   }, []);
 
-  //=======================SET THE WINDOW WIDTH============================================
-  useEffect(() => {
-    function reportWindowSize() {
-      if (window.innerWidth < 900 && currentChatData) {
-        dispatch(setHideContacts(true));
-        console.log(window.innerWidth);
-      } else dispatch(setHideContacts(false));
-    }
-    // Trigger this function on resize
-    window.addEventListener('resize', reportWindowSize);
-    //  Cleanup for componentWillUnmount
-    return () => window.removeEventListener('resize', reportWindowSize);
-  }, []);
-
   //==================== FETCHING THE MESSAGES FROM THE DATABASE ====================
-  useEffect(() => {
-    if (!user?._id || !targetUserId) return;
-
-    const handleMessage = (msg) => {
-      console.log('Message Received', msg);
-      if (msg.roomId === currentChatData.roomId) {
-        dispatch(
-          currentChatMessageSetter({
-            text: msg.newMessage.text,
-            senderId: msg.newMessage.senderId,
-            imageURL: msg.newMessage.imageURL,
-          })
-        );
-        setMessages((ps) => [
-          ...ps,
-          {
-            text: msg.newMessage.text,
-            senderId: msg.newMessage.senderId,
-            imageURL: msg.newMessage.imageURL,
-            createdAt: msg.newMessage.createdAt,
-          },
-        ]);
-      } else {
-
-        console.log(msg);
-        fetchContacts(dispatch);
-        dispatch(notificationsHandler({
-          senderId: msg?.newMessage.senderId._id,
-          roomId: msg?.roomId,
-          firstName: msg?.newMessage.senderId.firstName,
-          lastName: msg.newMessage.senderId.lastName,
-          photoUrl: msg?.newMessage.senderId.photoUrl,
-          msg: msg?.newMessage.text ? (msg?.newMessage.text) : "📷Photo",
-          time:msg.newMessage.createdAt
-        }));
-      }
-    };
-    const handleError = (problem) =>
-    {
-      toast.error("Network Error");
-    }
-
-    //HANDLER OF RECEIVE MESSAE HANDLER
-    socket?.on('messageReceived', handleMessage);
-    //Message in case of error
-
-    socket?.on('ImageProblem', handleError);
-    //DON'T FORGET TO REMOVE THE LISTENER
-    return () => {
-      socket?.off('messageReceived', handleMessage);
-    };
-  });
 
   //SEND MESSAGE BTN HANDLER
 
@@ -110,7 +44,7 @@ useEffect(() => {
     saveAs(imageURL, 'downloadImage');
   };
 
-  const formattedMessages = messages?.map((msg) => {
+  const formattedMessages = currentChatData.messages?.map((msg) => {
     const isoString = msg.createdAt;
 
     // Convert to local time
@@ -131,7 +65,7 @@ useEffect(() => {
 
   return (
     <div
-      className=" rounded-lg flex flex-col space-y-2 p-2 bg-white h-[70vh]
+      className=" rounded-lg flex flex-col border-black  md:pb-[40px] space-y-2 px-2 bg-white h-[70vh] md:h-[63vh] 
     w-full
   overflow-y-auto scrollbar-custom "
       ref={chatRef}

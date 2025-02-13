@@ -6,14 +6,12 @@ let chatSlice = createSlice({
     contactsData: [],
     contactsloading: false,
     messagesLoading: false,
-    hideContacts: false,
     notifications: [],
   },
 
   reducers: {
     currentChatDataHandler: (state, action) => {
       console.log(action.payload);
-      console.log('first Setter');
 
       const currentData = action.payload;
       return {
@@ -39,7 +37,6 @@ let chatSlice = createSlice({
       const remainingContacts = state.contactsData.map((contact) => {
         return contact.roomId != action.payload.roomId;
       });
-      console.log('Hello arrival');
       if (filteredData.length === 0) {
         return {
           ...state,
@@ -68,9 +65,7 @@ let chatSlice = createSlice({
     setMessageLoading: (state, action) => {
       return { ...state, messagesLoading: action.payload };
     },
-    setHideContacts: (state, action) => {
-      return { ...state, hideContacts: action.payload };
-    },
+
     notificationsHandler: (state, action) => {
       return {
         ...state,
@@ -86,6 +81,12 @@ let chatSlice = createSlice({
         notifications: filterNotifications,
       };
     },
+    ImagePreviewHandler: (state, action) => {
+      return {
+        ...state,
+        ImageToPreview: action.payload,
+      };
+    },
   },
 });
 export let {
@@ -96,7 +97,6 @@ export let {
   setMessageLoading,
   currentChatMessageSetter,
   contacts_DataUpdater_on_Message_Arrival,
-  setHideContacts,
   notificationsHandler,
   removeNotification,
 } = chatSlice.actions;
