@@ -17,7 +17,7 @@ function Chat() {
   const user = useSelector((store) => store.user);
   const navigate = useNavigate();
   let dispatch = useDispatch();
-  let { setTargetUserId } = useContext(SocketContext);
+  let { setTargetUserId,connectSocket,socket } = useContext(SocketContext);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
 
@@ -28,6 +28,7 @@ function Chat() {
 
   //ONLY FETCH THE CHAT ON THE TARGETUSERID CHAT
   useEffect(() => {
+    if (!socket) connectSocket(user?._id);
     if (!targetUserId) return;
     fetchMessages(targetUserId, dispatch);
     dispatch(removeNotification(targetUserId));
