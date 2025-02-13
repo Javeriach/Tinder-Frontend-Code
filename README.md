@@ -61,4 +61,9 @@
 
 ---
 
+## 🚀 Deployment
+This application has been successfully deployed using **AWS EC2 Instance** with **Nginx** as a reverse proxy.
+
+---
+
 📌 **Enjoy making new friends and chatting with ease!** 🎉
