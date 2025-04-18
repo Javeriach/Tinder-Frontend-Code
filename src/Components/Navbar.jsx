@@ -24,8 +24,7 @@ function Navbar() {
   let handleLogout = async () => {
     if (!user) return;
     try {
-      await axios.post(
-        BASE_USL + '/auth/logout',
+      await axios.post('/auth/logout',
         {},
         {
           withCredentials: true,

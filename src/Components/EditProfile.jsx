@@ -44,8 +44,7 @@ function EditProfile() {
     }
 
     try {
-      const response = await axios.patch(
-        BASE_USL + '/profile/edit',
+      const response = await axios.patch('/profile/edit',
         {
           firstName: firstName,
           lastName,

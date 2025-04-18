@@ -20,7 +20,7 @@ function Connections() {
     try {
       setLoading(true);
       let connectionsResponse = await axios.get(
-        BASE_USL + '/request/connections/Accepted',
+        '/request/connections/Accepted',
         { withCredentials: true }
       );
       dispatch(addConnections(connectionsResponse.data.data));

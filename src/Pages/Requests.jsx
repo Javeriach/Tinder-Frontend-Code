@@ -15,8 +15,7 @@ function Requests() {
   let fetchRequests = async () => {
     try {
       setLoading(true);
-        let requestResponse = await axios.get(
-            BASE_USL + '/request/connections/received',
+        let requestResponse = await axios.get('/request/connections/received',
             { withCredentials: true }
         );
       dispatch(addRequests(requestResponse.data.data));

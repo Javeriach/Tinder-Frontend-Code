@@ -12,7 +12,7 @@ import { BASE_USL } from '../../utiles/constants/constant';
 export const fetchContacts = async (dispatch) => {
   try {
     dispatch(setContactsLoading(true));
-    const response = await axios.get(`${BASE_USL}/contacts`, {
+    const response = await axios.get(`/contacts`, {
       withCredentials: true,
     });
     dispatch(setCurrentContacts(response.data));
@@ -33,12 +33,9 @@ export const fetchMessages = async (targetUserId, dispatch) => {
 
   try {
     dispatch(setMessageLoading(true)); // Set loading state to true
-    const response = await axios.get(
-      `${BASE_USL}/oneUserchat/${targetUserId}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`/oneUserchat/${targetUserId}`, {
+      withCredentials: true,
+    });
 
     let data = response.data;
     console.log(data);
