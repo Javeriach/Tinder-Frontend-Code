@@ -42,7 +42,7 @@ export const SocketProvider = ({ children }) => {
         }
         else {
         return io("/", {
-            path:"/api/socket.io",
+            path:"/socket.io",
             query:{userId:userId}
           });
         }
