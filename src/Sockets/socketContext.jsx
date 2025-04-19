@@ -41,7 +41,7 @@ export const SocketProvider = ({ children }) => {
           });
         }
         else {
-        return io("/", {
+        return io("https://tinder-server-2uuv.vercel.app", {
             path:"/socket.io",
             query:{userId:userId}
           });
