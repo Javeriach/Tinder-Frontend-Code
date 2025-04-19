@@ -46,7 +46,7 @@ export default function Login() {
     }
 
     try {
-      let response = await axios.post(
+      let response = await axios.post(BASE_USL+
        '/auth/signup',
         {
           firstName: firstName,
@@ -85,7 +85,7 @@ export default function Login() {
     if (error) setError('');
 
     try {
-      const result = await axios.post(
+      const result = await axios.post(BASE_USL+
        `/auth/login`,
         {
           email: emailID,
@@ -117,7 +117,7 @@ export default function Login() {
   let handleForgetPassword = async () => {
     try {
       setError('');
-      let result = await axios.patch('/forgetPassword',
+      let result = await axios.patch(BASE_USL+'/forgetPassword',
         {
           emailId: emailID,
           password,

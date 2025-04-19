@@ -16,11 +16,11 @@ function RequstedConnection({ fromUser, requestId,fetchRequests }) {
     let reviewRequest = async (status) =>
     {
         try {
-            let response = await axios.post( "/request/review/" + status + "/" + requestId, {}, { withCredentials: true });
+            let response = await axios.post(BASE_USL+ "/request/review/" + status + "/" + requestId, {}, { withCredentials: true });
             
             fetchRequests();
             if(status ==="accepted")
-           { let connectionsResponse = await axios.get(
+           { let connectionsResponse = await axios.get(BASE_USL+
                 '/request/connections/Accepted',
                 { withCredentials: true }
               );

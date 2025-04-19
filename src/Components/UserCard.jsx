@@ -51,7 +51,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
 
     setLoading(true);
     try {
-      let response = await axios.post('/request/send/' + status + '/' + _id,
+      let response = await axios.post(BASE_USL+'/request/send/' + status + '/' + _id,
         {},
         { withCredentials: true }
       );

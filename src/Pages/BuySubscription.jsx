@@ -24,7 +24,7 @@ function BuySubscription() {
   const verifyPrimiumUser = async (req, res)=>
 {
     try { 
-      const userPrimiumData = await axios.get("/premium/verify", { withCredentials: true });
+      const userPrimiumData = await axios.get(BASE_USL+"/premium/verify", { withCredentials: true });
       if (userPrimiumData.data.isPremium)
       {
         setIsPremium(true);
@@ -39,7 +39,7 @@ function BuySubscription() {
   //FUNCTION TO HANDLE THE SUBSCRIPTION
   let subscriptionHandler = async (type, benefits) => { 
     try {
-      const order = await axios.post('/payment/create', {
+      const order = await axios.post(BASE_USL+'/payment/create', {
         membershipType: type,
         benefits: benefits,
       },{withCredentials:true});

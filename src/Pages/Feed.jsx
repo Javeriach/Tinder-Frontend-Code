@@ -30,7 +30,7 @@ function Feed() {
   const fetchFeed = async () => {
     try {
       setLoading(false);
-      const response = await axios.get('/feed', {
+      const response = await axios.get(BASE_USL+'/feed', {
         withCredentials: true,
       });
         dispatch(addFeed(response.data.data));

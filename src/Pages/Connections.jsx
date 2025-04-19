@@ -19,7 +19,7 @@ function Connections() {
   let fetchConnections = async () => {
     try {
       setLoading(true);
-      let connectionsResponse = await axios.get(
+      let connectionsResponse = await axios.get(BASE_USL+
         '/request/connections/Accepted',
         { withCredentials: true }
       );
