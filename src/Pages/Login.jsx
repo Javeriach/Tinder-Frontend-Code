@@ -25,6 +25,7 @@ export default function Login() {
   let [forgetPassword, setForgetPassword] = useState(false);
   let [error, setError] = useState('');
   let [showPassword, setShowPassword] = useState(false);
+  let [loading, setLoading] = useState(false);
   const { connectSocket } = useContext(SocketContext);
   const user=useSelector(store=>store.user);
 
@@ -46,6 +47,7 @@ export default function Login() {
     }
 
     try {
+      setLoading(true);
       let response = await axios.post(BASE_USL+
        '/auth/signup',
         {
@@ -76,7 +78,8 @@ export default function Login() {
       }
       toast.error('Something went wrong!!');
       console.log(error);
-      throw new Error('ERROR' + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,6 +88,7 @@ export default function Login() {
     if (error) setError('');
 
     try {
+      setLoading(true);
       const result = await axios.post(BASE_USL+
        `/auth/login`,
         {
@@ -108,7 +112,8 @@ export default function Login() {
         setError(error.response.data.message);
       } else toast.error('Something went wrong!!');
       console.log(error);
-      throw new Error('ERROR' + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,6 +122,7 @@ export default function Login() {
   let handleForgetPassword = async () => {
     try {
       setError('');
+      setLoading(true);
       let result = await axios.patch(BASE_USL+'/forgetPassword',
         {
           emailId: emailID,
@@ -131,6 +137,8 @@ export default function Login() {
       if (error.status === 400) {
         setError(error.response.data.message);
       } else toast.error('Something went wrong!!');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -277,7 +285,8 @@ export default function Login() {
 
           <div className="card-actions justify-center ">
             <button
-              className=" h-[40px] bg-[#0a16bf] rounded text-white btn-primary w-[150px] font-bold text-[20px]"
+              disabled={loading}
+              className=" h-[40px] bg-[#0a16bf] rounded text-white btn-primary w-[150px] font-bold text-[20px] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               onClick={
                 loginFrom && !forgetPassword
                   ? loginHandler
@@ -286,11 +295,15 @@ export default function Login() {
                   : handleSignUp
               }
             >
-              {loginFrom
-                ? 'Login'
-                : forgetPassword
-                ? 'Reset Password'
-                : 'Sign Up'}
+              {loading ? (
+                <span className="loading loading-spinner loading-md"></span>
+              ) : loginFrom ? (
+                'Login'
+              ) : forgetPassword ? (
+                'Reset Password'
+              ) : (
+                'Sign Up'
+              )}
             </button>
 
             {loginFrom && !forgetPassword ? (

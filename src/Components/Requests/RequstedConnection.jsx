@@ -1,6 +1,7 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import axios from 'axios';
+import { useState } from 'react';
 import { BASE_USL } from '../../utiles/constants/constant';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -9,15 +10,19 @@ import { addConnections } from '../../Redux/Slices/connections';
 
 function RequstedConnection({ fromUser, requestId,fetchRequests }) {
     let dispatch = useDispatch();
+    // null | "accepted" | "rejected" -> which action is currently in flight
+    let [busy, setBusy] = useState(null);
     if (!fromUser) return;
   let { firstName, lastName, photoUrl, about, _id } = fromUser;
-  
-    //HANDLE THE STATUS OF THE REQUEST 
+
+    //HANDLE THE STATUS OF THE REQUEST
     let reviewRequest = async (status) =>
     {
+        if (busy) return;
         try {
+            setBusy(status);
             let response = await axios.post(BASE_USL+ "/request/review/" + status + "/" + requestId, {}, { withCredentials: true });
-            
+
             fetchRequests();
             if(status ==="accepted")
            { let connectionsResponse = await axios.get(BASE_USL+
@@ -30,11 +35,12 @@ function RequstedConnection({ fromUser, requestId,fetchRequests }) {
         } catch (error)
         {
             toast.error("Something went wrong");
-            throw new Error(error.message);
+        } finally {
+            setBusy(null);
         }
     }
-    
-  
+
+
     if (about.length > 100)
     {
         about = about.substring(0,50);
@@ -54,14 +60,21 @@ function RequstedConnection({ fromUser, requestId,fetchRequests }) {
               <p className='text-black text-[12px] font-semibold'>{about}</p>
             </div>
             <div className="flex items-center max-[500px]:hidden gap-2">
-            <button className="btn btn-active btn-secondary rounded-full " onClick={()=>reviewRequest("rejected")}>Reject</button>
-            <button className="btn btn-active btn-accent rounded-full " onClick={()=>reviewRequest("accepted")}>Accept</button>
+            <button className="btn btn-active btn-secondary rounded-full min-w-[90px]" disabled={!!busy} onClick={()=>reviewRequest("rejected")}>
+              {busy === "rejected" ? <span className="loading loading-spinner loading-sm"></span> : "Reject"}
+            </button>
+            <button className="btn btn-active btn-accent rounded-full min-w-[90px]" disabled={!!busy} onClick={()=>reviewRequest("accepted")}>
+              {busy === "accepted" ? <span className="loading loading-spinner loading-sm"></span> : "Accept"}
+            </button>
             </div>
 
             <div className="hidden items-center max-[500px]:flex">
-            <CancelIcon sx={{ fontSize: 40 }}  className="text-black" onClick={()=>reviewRequest("rejected")} />
-            <CheckCircleOutlineIcon sx={{ fontSize: 40 }} onClick={() => reviewRequest("accepted")} className="text-green-600" />
-                
+            {busy === "rejected"
+              ? <span className="loading loading-spinner loading-md text-black mx-1"></span>
+              : <CancelIcon sx={{ fontSize: 40 }} className={`text-black ${busy ? "opacity-40 pointer-events-none" : ""}`} onClick={()=>reviewRequest("rejected")} />}
+            {busy === "accepted"
+              ? <span className="loading loading-spinner loading-md text-green-600 mx-1"></span>
+              : <CheckCircleOutlineIcon sx={{ fontSize: 40 }} onClick={() => reviewRequest("accepted")} className={`text-green-600 ${busy ? "opacity-40 pointer-events-none" : ""}`} />}
             </div>
 
           </div>

@@ -33,26 +33,12 @@ export const SocketProvider = ({ children }) => {
     }
 
     const handleSocket = () =>
-    {
-      if (location.hostname == "localhost")
-        {
-          return io(BASE_USL,{
-            query:{userId:userId},
-            transports: ['polling', 'websocket'],
-            withCredentials: true
-          });
-        }
-        else {
-          console.log("https://tinder-server-2uuv.vercel.app");
-        return io("https://tinder-server-2uuv.vercel.app", {
-            path:"/socket.io",
-            query:{userId:userId},
-            transports: ['polling', 'websocket'],
-            withCredentials: true
-          });
-        }
-    
-    }
+      io(BASE_USL, {
+        path: '/socket.io',
+        query: { userId: userId },
+        transports: ['polling', 'websocket'],
+        withCredentials: true,
+      });
     const tempSocket = handleSocket();
     tempSocket.connect();
     setSocket(tempSocket);

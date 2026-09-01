@@ -10,4 +10,34 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // Pre-bundle heavy deps once on startup instead of discovering them
+  // mid-session (which triggers a full page reload + stall).
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'react-redux',
+      '@reduxjs/toolkit',
+      'axios',
+      'react-hot-toast',
+      'socket.io-client',
+      'framer-motion',
+      'lottie-react',
+      'emoji-picker-react',
+      'react-audio-voice-recorder',
+      'lucide-react',
+    ],
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'redux-vendor': ['react-redux', '@reduxjs/toolkit'],
+          'ui-vendor': ['framer-motion', 'lottie-react', 'emoji-picker-react'],
+        },
+      },
+    },
+  },
 });

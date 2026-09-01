@@ -44,7 +44,7 @@
 
 ---
 
-## 💎 Premium Features (RazorPay Integration)
+## 💎 Premium Features (Stripe Integration)
 ### 🥇 Gold
 - **Chat Feature Access**
 - **200 Connection Requests per Day**
@@ -56,7 +56,7 @@
 
 ---
 
-## 📧 AWS SES (Email Integration)
+## 📧 Resend (Email Integration)
 - Sends Admin Notifications on Who Sent Connections to Whom
 
 ---

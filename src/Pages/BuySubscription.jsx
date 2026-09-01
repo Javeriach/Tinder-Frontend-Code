@@ -9,7 +9,21 @@ import { useSelector } from 'react-redux';
 function BuySubscription() {
 
   const [isPremium, setIsPremium] = useState(false);
+  // which plan's checkout is currently being created ("" | "gold" | "premium")
+  const [loadingType, setLoadingType] = useState('');
   const user = useSelector(store => store.user);
+
+  const verifyPrimiumUser = async () => {
+    try {
+      const userPrimiumData = await axios.get(BASE_USL + "/premium/verify", { withCredentials: true });
+      if (userPrimiumData.data.isPremium) {
+        setIsPremium(true);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() =>
   {
@@ -19,59 +33,29 @@ function BuySubscription() {
         setIsPremium(true);
       }
     }
+
+    // Coming back from Stripe Checkout: confirm the upgrade with the backend.
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('payment') === 'success') {
+      verifyPrimiumUser();
+    }
   }, []);
 
-  const verifyPrimiumUser = async (req, res)=>
-{
-    try { 
-      const userPrimiumData = await axios.get(BASE_USL+"/premium/verify", { withCredentials: true });
-      if (userPrimiumData.data.isPremium)
-      {
-        setIsPremium(true);
-      }
-    }
-    catch (error)
-    {
-      throw new Error("Something went wrong!");
-    }
-  }
-
   //FUNCTION TO HANDLE THE SUBSCRIPTION
-  let subscriptionHandler = async (type, benefits) => { 
+  let subscriptionHandler = async (type, benefits) => {
+    if (loadingType) return;
     try {
-      const order = await axios.post(BASE_USL+'/payment/create', {
+      setLoadingType(type);
+      const { data } = await axios.post(BASE_USL + '/payment/create', {
         membershipType: type,
         benefits: benefits,
-      },{withCredentials:true});
+      }, { withCredentials: true });
 
-      //DESTRUCTURE ORDER DETAILS FOR CONVIENCE
-      const { orderId, notes, keyId, amount, currency } = order.data;
-    
-      //OPTIONS-DATA THAT WILL DISPLAY ON RAZORPAY DIALOGUE BOX
-       // Open Razorpay Checkout
-       const options = {
-        key: keyId, // Replace with your Razorpay key_id
-        amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        currency,
-        name: 'Tinder',// WEBSITE NAME
-        description: 'Connect to your friends and have a chat.',
-        order_id: orderId, // This is the order_id created in the backend
-        // callback_url: 'http://localhost:3000/payment-success', // Your success URL
-        prefill: {
-          name: notes.firstName + " " + notes.lastName,
-          email: notes.email,
-          contact: '+923449329032'
-        },
-        theme: {
-          color: '#0000FF'
-        },
-        handler:verifyPrimiumUser
-      };
-      //NOW RAZORPAY DIALOGUE BOX WILL OPEN NOW
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      // Redirect the browser to Stripe's hosted checkout page.
+      window.location.href = data.url;
     } catch (error) {
       console.log(error);
+      setLoadingType('');
     }
   };
   return (
@@ -83,11 +67,11 @@ function BuySubscription() {
         <div className="divider lg:divider-horizontal text-black">OR</div>
 
         <div className="card rounded-box grid  w-fit place-items-center">
-          <GoldSubscriptionCard subscriptionHandler={subscriptionHandler} />
+          <GoldSubscriptionCard subscriptionHandler={subscriptionHandler} loadingType={loadingType} />
         </div>
         <div className="divider lg:divider-horizontal text-black">OR</div>
         <div className="card  rounded-box grid  w-fit place-items-center">
-          <PremiumCard subscriptionHandler={subscriptionHandler} />
+          <PremiumCard subscriptionHandler={subscriptionHandler} loadingType={loadingType} />
         </div>
       </div>
     </div>

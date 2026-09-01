@@ -10,7 +10,7 @@ import { removeRequests } from '../Redux/Slices/requests';
 import { removeFeed } from '../Redux/Slices/feedSlice';
 import tinder from '../Images/tinder.png';
 import SocketContext from '@/Sockets/socketContext';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';import { useContext } from 'react';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';import { useContext, useState } from 'react';
 import { Sheet } from '@/ShadCn UI/sheet';
 import Notifications from './Notifications';
 function Navbar() {
@@ -19,11 +19,13 @@ function Navbar() {
  let dispatch = useDispatch();
   let navigate = useNavigate();
   const currentRoute = useLocation();
+  const [loggingOut, setLoggingOut] = useState(false);
 
   //FUNCTION TO HANDLE LOGOUT
   let handleLogout = async () => {
-    if (!user) return;
+    if (!user || loggingOut) return;
     try {
+      setLoggingOut(true);
       await axios.post(BASE_USL+'/auth/logout',
         {},
         {
@@ -40,6 +42,8 @@ function Navbar() {
     } catch (err) {
       console.log(err);
       toast.error('Logout Failed!!');
+    } finally {
+      setLoggingOut(false);
     }
   };
 
@@ -128,7 +132,10 @@ function Navbar() {
                 </li>
 
                 <li>
-                  <a onClick={handleLogout}>Logout</a>
+                  <a onClick={handleLogout} className={loggingOut ? 'pointer-events-none opacity-60' : ''}>
+                    {loggingOut && <span className="loading loading-spinner loading-xs"></span>}
+                    {loggingOut ? 'Logging out...' : 'Logout'}
+                  </a>
                 </li>
               </ul>
             </div>

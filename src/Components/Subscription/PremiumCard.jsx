@@ -1,12 +1,13 @@
 import React from 'react';
 import Diamond from '../../Images/Diamond.png';
 
-const PremiumCard = ({ subscriptionHandler }) => {
+const PremiumCard = ({ subscriptionHandler, loadingType }) => {
   let premiumBenefits = [
     'BlueTick for Primium users.',
     'Chat Feature Access.',
     'Unlimited Connections Requests.',
   ];
+  const isLoading = loadingType === 'premium';
   return (
     <div
       className="bg-gray-200 w-64  hover:border-2 hover:border-blue-50 rounded-lg shadow-lg h-[400px] overflow-hidden"
@@ -32,9 +33,13 @@ const PremiumCard = ({ subscriptionHandler }) => {
           ))}
         </ul>
 
-        <button className="bg-white text-black mt-2 w-fit font-bold py-2 px-6 rounded-lg shadow-md hover:bg-gray-300"
-        onClick={()=>subscriptionHandler("premium",premiumBenefits)}>
-          SUBSCRIBE
+        <button
+          disabled={!!loadingType}
+          className="bg-white text-black mt-2 w-fit font-bold py-2 px-6 rounded-lg shadow-md hover:bg-gray-300 flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+          onClick={()=>subscriptionHandler("premium",premiumBenefits)}
+        >
+          {isLoading && <span className="loading loading-spinner loading-sm"></span>}
+          {isLoading ? 'REDIRECTING...' : 'SUBSCRIBE'}
         </button>
       </div>
     </div>

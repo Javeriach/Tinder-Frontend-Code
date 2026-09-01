@@ -1,11 +1,12 @@
 import React from 'react';
 import Goldbricks from '../../Images/Goldbricks.png';
 
-const GoldSubscriptionCard = ({ subscriptionHandler }) => {
+const GoldSubscriptionCard = ({ subscriptionHandler, loadingType }) => {
   const goldenPlanBenefits = [
     'Chat Feature access.',
     '200 Connections Requests per day.',
   ];
+  const isLoading = loadingType === 'gold';
   return (
     <div
       className="bg-white w-64 rounded-lg shadow-lg overflow-hidden h-[400px] hover:border-2 hover:border-blue-50"
@@ -37,8 +38,13 @@ const GoldSubscriptionCard = ({ subscriptionHandler }) => {
             ))}
           </ul>
 
-          <button className="bg-white text-black mt-7 w-fit font-bold py-2 px-6 rounded-lg shadow-sm shadow-black hover:bg-gray-300" onClick={()=>subscriptionHandler('gold',goldenPlanBenefits)}>
-            SUBSCRIBE
+          <button
+            disabled={!!loadingType}
+            className="bg-white text-black mt-7 w-fit font-bold py-2 px-6 rounded-lg shadow-sm shadow-black hover:bg-gray-300 flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            onClick={()=>subscriptionHandler('gold',goldenPlanBenefits)}
+          >
+            {isLoading && <span className="loading loading-spinner loading-sm"></span>}
+            {isLoading ? 'REDIRECTING...' : 'SUBSCRIBE'}
           </button>
         </div>
       </div>

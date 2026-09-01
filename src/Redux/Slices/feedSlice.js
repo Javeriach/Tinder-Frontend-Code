@@ -4,18 +4,27 @@ const feedSlice = createSlice({
   name: 'feed',
   initialState: [],
   reducers: {
-    addFeed: (state, action) => {
-      return action.payload;
+    // Replace the whole feed (initial load / refresh).
+    addFeed: (state, action) => action.payload,
+
+    // Add a fresh batch, skipping anyone already in the stack.
+    appendFeed: (state, action) => {
+      const seen = new Set(state.map((u) => u._id));
+      const incoming = (action.payload || []).filter(
+        (u) => u && !seen.has(u._id)
+      );
+      return [...state, ...incoming];
     },
-    removeFeed: (state, action) => {
-      return action.payload;
-    },
+
+    // Clear the feed (logout / switching account).
+    removeFeed: () => [],
+
     removeSelectedUserFromFeed: (state, action) => {
-      let data = state.filter((req) => req._id != action.payload);
-      return data;
+      return state.filter((req) => req._id != action.payload);
     },
   },
 });
-export const { addFeed, removeFeed, removeSelectedUserFromFeed } =
+
+export const { addFeed, appendFeed, removeFeed, removeSelectedUserFromFeed } =
   feedSlice.actions;
 export default feedSlice.reducer;

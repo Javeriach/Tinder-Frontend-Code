@@ -19,6 +19,7 @@ function EditProfile() {
   let [gender, setGender] = useState(user?.gender ? user.gender : "male");
   let [photoUrl, setPhotoUrl] = useState(user?.photoUrl ? user?.photoUrl : "");
   let [error, setError] = useState("");
+  let [saving, setSaving] = useState(false);
   
   let navigate = useNavigate();
 
@@ -44,6 +45,7 @@ function EditProfile() {
     }
 
     try {
+      setSaving(true);
       const response = await axios.patch(BASE_USL+'/profile/edit',
         {
           firstName: firstName,
@@ -59,7 +61,8 @@ function EditProfile() {
       toast.success('Profile saves successfully!!');
     } catch (error) {
       toast.error('Saving Profile Failed');
-      throw new Error('Something went wrong!');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -161,10 +164,12 @@ function EditProfile() {
 
         <div className="card-actions justify-end ">
           <button
-            className=" mt-2 bg-[#389923] rounded text-white btn-primary p-3 font-semibold text-[15px]"
+            disabled={saving}
+            className=" mt-2 bg-[#389923] rounded text-white btn-primary p-3 font-semibold text-[15px] flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={saveProfileHandler}
           >
-            Save Profile
+            {saving && <span className="loading loading-spinner loading-sm"></span>}
+            {saving ? 'Saving...' : 'Save Profile'}
           </button>
         </div>
       </div>
