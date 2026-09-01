@@ -36,8 +36,14 @@ export const SocketProvider = ({ children }) => {
       io(BASE_USL, {
         path: '/socket.io',
         query: { userId: userId },
-        transports: ['polling', 'websocket'],
+        // Vercel Functions only serve the WebSocket transport, not HTTP
+        // long-polling - so we force websocket everywhere.
+        transports: ['websocket'],
         withCredentials: true,
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 10000,
       });
     const tempSocket = handleSocket();
     tempSocket.connect();

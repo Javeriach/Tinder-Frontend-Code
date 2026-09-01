@@ -8,4 +8,4 @@ export let BASE_USL =
   fromEnv ||
   (location.hostname === 'localhost'
     ? 'http://localhost:7777'
-    : 'https://tinder-server-2uuv.vercel.app');
+    : 'https://tinder-server-ten.vercel.app');
