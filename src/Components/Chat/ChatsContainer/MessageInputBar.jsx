@@ -86,7 +86,7 @@ function MessageInputBar() {
   };
 
   return (
-    <div className="w-screen transition-all duration-300 ">
+    <div className="w-full transition-all duration-300 ">
       {imagePreview && (
         <ImagePreview image={imagePreview} removeImage={removeImage} />
       )}

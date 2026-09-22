@@ -48,7 +48,7 @@ function ContactsContainer() {
   if (!contacts?.length) {
     return (
       <div
-        className={` relative md:w-[35vw] lg:w-[30vw] pt-[70px]   xl:w-[25vw] bg-white border-r-[1px] w-full ${
+        className={` relative md:w-[35vw] lg:w-[30vw] pt-[70px]   xl:w-[25vw] bg-white border-r-[1px] w-full h-full ${
           hideContacts ? 'hidden' : 'flex flex-col'
         }`}
       >
@@ -61,7 +61,7 @@ function ContactsContainer() {
   return (
     !hideContacts && (
       <div
-        className={` relative md:w-[35vw] lg:w-[30vw] pt-[70px]   xl:w-[25vw] bg-white border-r-[1px] w-full `}
+        className={` relative md:w-[35vw] lg:w-[30vw] pt-[70px]   xl:w-[25vw] bg-white border-r-[1px] w-full h-full `}
       >
         <h1 className=" font-poppins text-[18px] font-semibold px-9 mt-1  text-[#fe3c72]">
           Messages

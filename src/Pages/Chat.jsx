@@ -49,7 +49,7 @@ function Chat() {
   console.log(contactsloading)
   if(contactsloading && !currentChatData)
   {return (
-    <div className="flex h-[100vh] bg-white justify-center items-center w-full ">
+    <div className="flex h-screen bg-white justify-center items-center w-full ">
       (
       <>
      <Lottie animationData={message_loading}/>
@@ -60,7 +60,7 @@ function Chat() {
   }
   
   return (
-    <div className="flex h-[90vh] bg-white ">
+    <div className="flex h-screen bg-white ">
       (
       <>
         <ContactsContainer />
