@@ -23,6 +23,8 @@ export default function Login() {
   let [lastName, setLastName] = useState('');
   let [loginFrom, setLoginForm] = useState(true);
   let [forgetPassword, setForgetPassword] = useState(false);
+  let [otpSent, setOtpSent] = useState(false);
+  let [otp, setOtp] = useState('');
   let [error, setError] = useState('');
   let [showPassword, setShowPassword] = useState(false);
   let [loading, setLoading] = useState(false);
@@ -118,14 +120,37 @@ export default function Login() {
   };
 
 
+  //FUNCTION TO SEND A RESET CODE TO THE ACCOUNT'S EMAIL
+  let handleSendOtp = async () => {
+    try {
+      setError('');
+      setLoading(true);
+      await axios.post(BASE_USL+'/auth/forgetPassword/send-otp',
+        {
+          emailId: emailID,
+        },
+        { withCredentials: true }
+      );
+      toast.success('A reset code has been sent to your email.');
+      setOtpSent(true);
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else toast.error('Something went wrong!!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   //FUNCTION TO HANDLE FORGET PASSWORD
   let handleForgetPassword = async () => {
     try {
       setError('');
       setLoading(true);
-      let result = await axios.patch(BASE_USL+'/forgetPassword',
+      await axios.patch(BASE_USL+'/forgetPassword',
         {
           emailId: emailID,
+          otp,
           password,
         },
         { withCredentials: true }
@@ -133,8 +158,10 @@ export default function Login() {
       toast.success('Password Updated Successfully!!');
       setLoginForm(true);
       setForgetPassword(false);
+      setOtpSent(false);
+      setOtp('');
     } catch (error) {
-      if (error.status === 400) {
+      if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else toast.error('Something went wrong!!');
     } finally {
@@ -223,44 +250,59 @@ export default function Login() {
             />
           </label>
           <div>
-            <label className="input input-bordered flex items-center gap-2 text-white -full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="h-4 w-4 opacity-100 text-white"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <div className="flex">
+            {forgetPassword && otpSent && (
+              <label className="input input-bordered flex items-center gap-2 text-white -full mb-2">
                 <input
-                  placeholder={
-                    forgetPassword ? 'Enter new Password' : 'Password'
-                  }
-                  type={showPassword ? 'text' : 'password'}
-                  className="w-[180px]"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={6}
+                  placeholder="Enter reset code"
+                  className="w-[200px]"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
                 />
-                {!showPassword ? (
-                  <VisibilityIcon
-                    className="text-white mt-1 cursor-pointer"
-                    fontSize="15"
-                    onClick={() => setShowPassword(!showPassword)}
+              </label>
+            )}
+            {!(forgetPassword && !otpSent) && (
+              <label className="input input-bordered flex items-center gap-2 text-white -full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-100 text-white"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                    clipRule="evenodd"
                   />
-                ) : (
-                  <VisibilityOffIcon
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="text-white mt-1 cursor-pointer"
-                    fontSize="15"
+                </svg>
+                <div className="flex">
+                  <input
+                    placeholder={
+                      forgetPassword ? 'Enter new Password' : 'Password'
+                    }
+                    type={showPassword ? 'text' : 'password'}
+                    className="w-[180px]"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
-                )}
-              </div>
-            </label>
+                  {!showPassword ? (
+                    <VisibilityIcon
+                      className="text-white mt-1 cursor-pointer"
+                      fontSize="15"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="text-white mt-1 cursor-pointer"
+                      fontSize="15"
+                    />
+                  )}
+                </div>
+              </label>
+            )}
             {loginFrom && !forgetPassword && (
               <div>
                 <p
@@ -268,6 +310,8 @@ export default function Login() {
                   onClick={() => {
                     setForgetPassword(!forgetPassword);
                     setLoginForm(false);
+                    setOtpSent(false);
+                    setOtp('');
                   }}
                 >
                   Forget Password?
@@ -291,7 +335,7 @@ export default function Login() {
                 loginFrom && !forgetPassword
                   ? loginHandler
                   : forgetPassword
-                  ? handleForgetPassword
+                  ? (otpSent ? handleForgetPassword : handleSendOtp)
                   : handleSignUp
               }
             >
@@ -300,7 +344,7 @@ export default function Login() {
               ) : loginFrom ? (
                 'Login'
               ) : forgetPassword ? (
-                'Reset Password'
+                otpSent ? 'Reset Password' : 'Send Code'
               ) : (
                 'Sign Up'
               )}
@@ -323,6 +367,8 @@ export default function Login() {
                 onClick={() => {
                   setLoginForm((ps) => !ps);
                   setForgetPassword(false);
+                  setOtpSent(false);
+                  setOtp('');
                   setError('');
                 }}
               >

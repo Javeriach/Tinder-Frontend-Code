@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import SocketContext from '@/Sockets/socketContext';
@@ -16,7 +16,6 @@ function MessagesContainer({ previousMessages }) {
 
   useEffect(() => {
     //=======================SCROLL TO BOTTOM WHEN NEW MESSAGE ARRIVE================
-    console.log("scolling to boottom");
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
@@ -44,6 +43,20 @@ function MessagesContainer({ previousMessages }) {
     saveAs(imageURL, 'downloadImage');
   };
 
+  // "Today" / "Yesterday" / a full date, so messages from different days are
+  // never mistaken for being out of order when only a time-of-day is shown.
+  const getDateLabel = (date) => {
+    const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+    const diffDays = Math.round((startOfDay(new Date()) - startOfDay(date)) / 86400000);
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
   const formattedMessages = currentChatData.messages?.map((msg) => {
     const isoString = msg.createdAt;
 
@@ -60,7 +73,7 @@ function MessagesContainer({ previousMessages }) {
       .toString()
       .padStart(2, '0')} ${ampm}`;
 
-    return { ...msg, time: formattedTime };
+    return { ...msg, time: formattedTime, dateLabel: getDateLabel(date) };
   });
 
   return (
@@ -70,17 +83,28 @@ function MessagesContainer({ previousMessages }) {
   overflow-y-auto scrollbar-custom "
       ref={chatRef}
     >
-      {formattedMessages?.map((msg, index) => {
-        return (
-          (msg.imageURL || msg.text) && (
-            <div
-              key={index}
-              className={`bg-white ${
-                msg?.senderId?._id === user?._id
-                  ? ' text-white chat chat-end'
-                  : ' text-black chat chat-start'
-              } `}
-            >
+      {(() => {
+        let lastDateLabel = null;
+        return formattedMessages?.map((msg, index) => {
+          if (!(msg.imageURL || msg.text)) return null;
+          const showDateSeparator = msg.dateLabel !== lastDateLabel;
+          lastDateLabel = msg.dateLabel;
+          return (
+            <Fragment key={index}>
+              {showDateSeparator && (
+                <div className="flex justify-center py-2">
+                  <span className="text-xs font-medium text-gray-500 bg-gray-100 rounded-full px-3 py-1">
+                    {msg.dateLabel}
+                  </span>
+                </div>
+              )}
+              <div
+                className={`bg-white ${
+                  msg?.senderId?._id === user?._id
+                    ? ' text-white chat chat-end'
+                    : ' text-black chat chat-start'
+                } `}
+              >
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full ring-2 ring-black ">
                   <img
@@ -131,7 +155,7 @@ function MessagesContainer({ previousMessages }) {
                                 : 'text-black'
                             }`}
                           >
-                            {msg.senderId.firstName} {msg.senderId.lastName}
+                            {msg?.senderId?.firstName} {msg?.senderId?.lastName}
                           </span>
                           <span
                             class={`text-sm font-normal ${
@@ -207,10 +231,11 @@ function MessagesContainer({ previousMessages }) {
                   </div>
                 </div>
               )}
-            </div>
-          )
-        );
-      })}
+              </div>
+            </Fragment>
+          );
+        });
+      })()}
     </div>
   );
 }

@@ -36,7 +36,7 @@ const ChatHeader = ({ contactData }) => {
             <h2 className=" font-semibold text-[17px]  text-black font-Roboto">
               {contactData?.firstName} {contactData?.lastName}
             </h2>
-            <span className="text-sm text-gray-400">{onlineUsers?.includes(contactData._id)?"Online":"Last Seen:24 mint ago"}</span>
+            <span className="text-sm text-gray-400">{onlineUsers?.includes(contactData._id)?"Online":"Offline"}</span>
           </div>
         </div>
       </div>

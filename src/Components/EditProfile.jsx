@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import UserCard from './UserCard';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import axios from 'axios';
 import { BASE_USL } from '../utiles/constants/constant';
+import { DEFAULT_AVATAR } from '../utiles/placeholderAvatar';
 import toast from 'react-hot-toast';
 import { addUser } from '../Redux/Slices/userSlice';
 import PreviewUserCard from './PreviewUserCard';
@@ -17,14 +18,50 @@ function EditProfile() {
   let [about, setAbout] = useState(user?.about);
   let [age, setAge] = useState(user?.age ? user.age : 0);
   let [gender, setGender] = useState(user?.gender ? user.gender : "male");
-  let [photoUrl, setPhotoUrl] = useState(user?.photoUrl ? user?.photoUrl : "");
+  let [photoUrl, setPhotoUrl] = useState(user?.photoUrl?.length > 0 ? user.photoUrl : "");
+  let [uploadingPhoto, setUploadingPhoto] = useState(false);
   let [error, setError] = useState("");
   let [saving, setSaving] = useState(false);
-  
+  const fileInputRef = useRef(null);
+
   let navigate = useNavigate();
 
   if (!user?.toString()) navigate("/login");
-  
+
+  //FUNCTION TO HANDLE PICKING A PHOTO FROM THE PC AND UPLOADING IT
+  let handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be smaller than 5MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      try {
+        setUploadingPhoto(true);
+        const { data } = await axios.post(
+          BASE_USL + '/profile/uploadPhoto',
+          { image: reader.result },
+          { withCredentials: true }
+        );
+        setPhotoUrl(data.url);
+        toast.success('Photo uploaded!');
+      } catch (error) {
+        toast.error(error.response?.data?.message || 'Photo upload failed.');
+      } finally {
+        setUploadingPhoto(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   let saveProfileHandler = async () => {
     setError("");
     if (firstName.length < 5 || firstName.length > 50)
@@ -100,15 +137,35 @@ function EditProfile() {
 
         <label className="form-control w-full max-w-xs">
           <div className="label">
-            <span className="label-text">Your photoUrl?</span>
+            <span className="label-text">Profile photo</span>
           </div>
-          <input
-            type="text"
-            value={photoUrl}
-            onChange={(e) => setPhotoUrl(e.target.value)}
-            placeholder="Type here"
-            className="input input-bordered w-full max-w-xs text-white"
-          />
+          <div className="flex items-center gap-3">
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-700 flex-shrink-0">
+              <img
+                src={photoUrl?.length > 0 ? photoUrl : DEFAULT_AVATAR}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handlePhotoChange}
+            />
+            <button
+              type="button"
+              disabled={uploadingPhoto}
+              onClick={() => fileInputRef.current?.click()}
+              className="btn btn-sm bg-white text-black hover:bg-gray-300 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {uploadingPhoto && (
+                <span className="loading loading-spinner loading-xs"></span>
+              )}
+              {uploadingPhoto ? 'Uploading...' : 'Choose Photo'}
+            </button>
+          </div>
         </label>
 
         <label className="form-control w-full max-w-xs">

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { DEFAULT_AVATAR } from "../../utiles/placeholderAvatar";
 function SingleConnection({ friend }) {
   if (friend.toString() === '') return;
 
-  let { firstName, lastName, about, photoUrl,gender,_id} = friend;
+  let { firstName, lastName, about, photoUrl,_id} = friend;
 
   if (about.length > 50) {
     about = about.substring(0, 50);
@@ -15,13 +16,7 @@ function SingleConnection({ friend }) {
         <div className="avatar w-[100px] h-full flex items-center">
           <div className=" w-20 h-20 max-[500px]:w-14  max-[500px]:h-14  rounded-full  ring-2 ring-black ">
             <img
-              src={
-                photoUrl
-                  ? photoUrl
-                  : gender === 'female'
-                  ? 'https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg'
-                  : 'https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg'
-              }
+              src={photoUrl || DEFAULT_AVATAR}
             />
           </div>
         </div>

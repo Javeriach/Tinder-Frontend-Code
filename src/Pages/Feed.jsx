@@ -70,19 +70,26 @@ function Feed() {
 
   // Top the stack up before it runs out.
   useEffect(() => {
-    if (!loading && hasMoreRef.current && feed.length <= REFILL_AT) {
+    if (user?.toString() && !loading && hasMoreRef.current && feed.length <= REFILL_AT) {
       fetchFeed({ append: true });
     }
-  }, [feed.length, loading]);
+  }, [feed.length, loading, user]);
+
+  // Redirect to login when logged out - done in an effect, not during render,
+  // so it doesn't fire while a different component (e.g. Navbar) is mid-update.
+  useEffect(() => {
+    if (user == null || !user?.toString()) {
+      navigate('/login');
+    }
+  }, [user]);
 
   if (user == null || !user?.toString()) {
-    navigate('/login');
-    return;
+    return null;
   }
 
   return (
     <div
-      className="md:justify-center bg-lime-700 pt-[70px] py-11 min-h-screen h-full md:pt-[100px] grid place-items-center"
+      className="md:justify-center bg-lime-700 pt-[90px] py-11 min-h-screen h-full md:pt-[120px] grid place-items-center"
       style={{
         background: `linear-gradient(0deg, rgba(253,120,87,1) 0%, rgba(253,41,125,1) 100%)`,
       }}

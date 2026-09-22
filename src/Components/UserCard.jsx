@@ -13,6 +13,7 @@ import loading from "../utiles/Lotties/Loading.json";
 import Lottie from 'lottie-react/build';
 import { useNavigate } from 'react-router-dom';
 import blueTick from "../Images/blueTick.png";
+import { DEFAULT_AVATAR } from '../utiles/placeholderAvatar';
 
 
 function UserCard({ feeduser: user, feed, index, feedArray }) {
@@ -90,7 +91,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
       <motion.img
         onDragStart={(e) => e.preventDefault()}
         className="h-[350px] w-full md:w-[470px] md:h-[440px] rounded-t-2xl"
-        src={photoUrl?.length > 0? photoUrl: gender === 'female'? "https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg":"https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"}
+        src={photoUrl?.length > 0 ? photoUrl : DEFAULT_AVATAR}
 
         alt={firstName}
       />

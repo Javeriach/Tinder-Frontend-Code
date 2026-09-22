@@ -13,6 +13,7 @@ import SocketContext from '@/Sockets/socketContext';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';import { useContext, useState } from 'react';
 import { Sheet } from '@/ShadCn UI/sheet';
 import Notifications from './Notifications';
+import { DEFAULT_AVATAR } from '../utiles/placeholderAvatar';
 function Navbar() {
   const user = useSelector((store) => store.user);
   const {disconnectSocket,socket} = useContext(SocketContext);
@@ -88,9 +89,7 @@ function Navbar() {
                       user?.toString()
                         ? user.photoUrl?.length > 0
                           ? user.photoUrl
-                          : user.gender === 'female'
-                          ? 'https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg'
-                          : 'https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg'
+                          : DEFAULT_AVATAR
                         : ''
                     }
                   />
