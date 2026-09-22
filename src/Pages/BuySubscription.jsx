@@ -11,6 +11,7 @@ function BuySubscription() {
   const [isPremium, setIsPremium] = useState(false);
   const [membershipType, setMembershipType] = useState('');
   const [premiumExpiresAt, setPremiumExpiresAt] = useState(null);
+  const [hasSubscription, setHasSubscription] = useState(false);
   // which plan's checkout is currently being created ("" | "gold" | "premium")
   const [loadingType, setLoadingType] = useState('');
   const [cancelling, setCancelling] = useState(false);
@@ -24,6 +25,7 @@ function BuySubscription() {
         setIsPremium(true);
         setMembershipType(userPrimiumData.data.membershipType || '');
         setPremiumExpiresAt(userPrimiumData.data.premiumExpiresAt || null);
+        setHasSubscription(!!userPrimiumData.data.stripeSubscriptionId);
       }
     }
     catch (error) {
@@ -39,6 +41,7 @@ function BuySubscription() {
         setIsPremium(true);
         setMembershipType(user.membershipType || '');
         setPremiumExpiresAt(user.premiumExpiresAt || null);
+        setHasSubscription(!!user.stripeSubscriptionId);
       }
     }
 
@@ -138,7 +141,7 @@ function BuySubscription() {
             </p>
           )}
 
-          {!isCancelled && (
+          {!isCancelled && hasSubscription && (
             <button
               disabled={cancelling}
               onClick={cancelSubscriptionHandler}
@@ -146,6 +149,14 @@ function BuySubscription() {
             >
               {cancelling ? 'Cancelling…' : 'Cancel Subscription'}
             </button>
+          )}
+
+          {!isCancelled && !hasSubscription && (
+            <p className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-md px-3 py-2">
+              This plan is not linked to a billable subscription, so there is nothing to
+              cancel here. Resubscribe from the plan picker to enable self-service
+              cancellation.
+            </p>
           )}
 
           {cancelMessage && (

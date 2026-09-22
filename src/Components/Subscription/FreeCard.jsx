@@ -30,8 +30,11 @@ const FreePlanCard = () => {
           </div>
         </div>
         <div className="px-6 pb-6 flex justify-center">
-        <button className="bg-black mt-1 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-gray-800">
-            SUBSCRIBE
+        <button
+          disabled
+          className="bg-gray-200 mt-1 text-gray-500 font-bold py-2 px-6 rounded-lg cursor-not-allowed"
+        >
+            CURRENT PLAN
           </button>
         </div>
       </div>

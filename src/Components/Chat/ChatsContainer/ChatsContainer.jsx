@@ -7,7 +7,6 @@ import Lottie from 'lottie-react';
 
 function ChatsContainer() {
   let { currentChatData, messagesLoading } = useSelector((store) => store.chat);
-    console.log(messagesLoading);
   return (
     <div className="pt-[70px] bg-white overflow-hidden flex-1  md:flex  flex flex-col h-full duration-100 ">
       {/* CHAR USER */}

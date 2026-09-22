@@ -18,7 +18,6 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
 
           socket?.on("getOnlineUsers", (onlineUsers) => {
-              console.log(onlineUsers, "onlineUsers");
               setOnlineUsers(onlineUsers);
           });
     
@@ -53,7 +52,6 @@ export const SocketProvider = ({ children }) => {
   //====================================================Messages Handler====================================================
   useEffect(() => {
       const handleMessage = (msg) => {
-        console.log('Message Received', msg);
         if (msg.roomId === currentChatData.roomId && targetUserId) {
           dispatch(
             currentChatMessageSetter({
@@ -68,7 +66,6 @@ export const SocketProvider = ({ children }) => {
           {
             return contact.roomId == msg.roomId;
           })
-          console.log(filtersContact);
           if (filtersContact?.length == 0)
             fetchContacts(dispatch);
           

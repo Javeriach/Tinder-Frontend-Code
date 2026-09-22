@@ -13,25 +13,24 @@ function Notifications() {
         role="button"
         className="btn md:hidden btn-circle btn-ghost btn-xs text-info"
       >
-        <Link to={"/chat"} class="relative">
+        <Link to={"/chat"} className="relative">
           <svg
-            class={`w-8 h-8 text-black ${
+            className={`w-8 h-8 text-black ${
               notifications?.length ? 'animate-wiggle' : ''
             }`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 21 21"
-            className="w-8 h-8"
           >
             <path
               fill="white"
               stroke=""
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M15.585 15.5H5.415A1.65 1.65 0 0 1 4 13a10.526 10.526 0 0 0 1.5-5.415V6.5a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.085c0 1.907.518 3.78 1.5 5.415a1.65 1.65 0 0 1-1.415 2.5zm1.915-11c-.267-.934-.6-1.6-1-2s-1.066-.733-2-1m-10.912 3c.209-.934.512-1.6.912-2s1.096-.733 2.088-1M13 17c-.667 1-1.5 1.5-2.5 1.5S8.667 18 8 17"
             />
           </svg>
-          <div class="px-1 py-0.5 bg-blue-500 min-w-5 rounded-full text-center text-white text-xs absolute -top-2 -end-1 translate-x-1/4 text-nowrap">
-            <div class={`absolute top-0 start-0 rounded-full -z-10 ${notifications?.length ? "animate-ping":""} bg-blue-400 w-full h-full`}></div>
+          <div className="px-1 py-0.5 bg-blue-500 min-w-5 rounded-full text-center text-white text-xs absolute -top-2 -end-1 translate-x-1/4 text-nowrap">
+            <div className={`absolute top-0 start-0 rounded-full -z-10 ${notifications?.length ? "animate-ping":""} bg-blue-400 w-full h-full`}></div>
             {notifications?.length}
           </div>
         </Link>
@@ -43,25 +42,24 @@ function Notifications() {
           role="button"
           className="btn btn-circle btn-ghost btn-xs text-info"
         >
-          <div class="relative">
+          <div className="relative">
           <svg
-            class={`w-8 h-8 text-black ${
+            className={`w-8 h-8 text-black ${
               notifications?.length ? 'animate-wiggle' : ''
             }`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 21 21"
-            className="w-8 h-8"
           >
             <path
               fill="white"
               stroke=""
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M15.585 15.5H5.415A1.65 1.65 0 0 1 4 13a10.526 10.526 0 0 0 1.5-5.415V6.5a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.085c0 1.907.518 3.78 1.5 5.415a1.65 1.65 0 0 1-1.415 2.5zm1.915-11c-.267-.934-.6-1.6-1-2s-1.066-.733-2-1m-10.912 3c.209-.934.512-1.6.912-2s1.096-.733 2.088-1M13 17c-.667 1-1.5 1.5-2.5 1.5S8.667 18 8 17"
             />
           </svg>
-          <div class="px-1 py-0.5 bg-blue-500 min-w-5 rounded-full text-center text-white text-xs absolute -top-2 -end-1 translate-x-1/4 text-nowrap">
-            <div class={`absolute top-0 start-0 rounded-full -z-10 ${notifications?.length ? "animate-ping":""} bg-blue-400 w-full h-full`}></div>
+          <div className="px-1 py-0.5 bg-blue-500 min-w-5 rounded-full text-center text-white text-xs absolute -top-2 -end-1 translate-x-1/4 text-nowrap">
+            <div className={`absolute top-0 start-0 rounded-full -z-10 ${notifications?.length ? "animate-ping":""} bg-blue-400 w-full h-full`}></div>
             {notifications?.length}
           </div>
           </div>
@@ -71,7 +69,7 @@ function Notifications() {
           className="card h-[300px] w-72 overflow-x-hidden overflow-y-auto compact dropdown-content bg-white text-black rounded-box z-[1]  shadow p-0"
         >
           <div tabIndex={0} className="card-body">
-            <div class="block px-4 py-2 font-medium text-center text-white rounded-t-lg  bg-blue-500 dark:text-white">
+            <div className="block px-4 py-2 font-medium text-center text-white rounded-t-lg  bg-blue-500 dark:text-white">
               Notifications
             </div>
 

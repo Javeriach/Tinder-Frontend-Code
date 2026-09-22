@@ -11,8 +11,6 @@ let chatSlice = createSlice({
 
   reducers: {
     currentChatDataHandler: (state, action) => {
-      console.log(action.payload);
-
       const currentData = action.payload;
       return {
         ...state,
@@ -53,7 +51,6 @@ let chatSlice = createSlice({
       } else return state;
     },
     removeCurrentChatData: (state, action) => {
-      console.log('I am callled-undefined');
       return { ...state, currentChatData: undefined };
     },
     setCurrentContacts: (state, action) => {

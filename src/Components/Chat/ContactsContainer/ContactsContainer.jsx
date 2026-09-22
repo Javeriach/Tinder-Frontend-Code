@@ -25,7 +25,6 @@ function ContactsContainer() {
       setWindowWidth(window.innerWidth);
       if (window.innerWidth < 900 && currentChatData?.length) {
         setHideContacts(true);
-        console.log(window.innerWidth);
       } else setHideContacts(false);
     }
     // Trigger this function on resize
@@ -37,7 +36,6 @@ function ContactsContainer() {
   useEffect(() => {
     if (windowWidth < 900 && targetUserId) {
       setHideContacts(true);
-      console.log(window.innerWidth);
     } else setHideContacts(false);
   }, [targetUserId]);
   

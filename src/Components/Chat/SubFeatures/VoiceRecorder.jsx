@@ -35,7 +35,6 @@ function VoiceRecorder() {
   // TO ADD AUDIO ELEMENT
   const addAudioElement = (Blob) => {
       const url = URL.createObjectURL(Blob);
-      console.log(url);
     //NOW WE WILL CREATE THE AUDIO ELEMENT
     const audioElement = document.createElement('audio'); //WE CREATED THE AUDIO ELEMET IN OUT DOM
     audio.src = url; //HERE WE SET THE URL OF THE AUDI ELEMETN THAT WE HAVE CREATED

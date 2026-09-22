@@ -43,7 +43,6 @@ function MessageInputBar() {
 
   const sendMessageHandler = (event) => {
     event.preventDefault();
-    console.log('Sending Message');
     if (!newMessage.text && !imagePreview) return;
     //============SEND MESSAGE TO SOCKET================
     if (!socket) {
@@ -68,7 +67,6 @@ function MessageInputBar() {
   };
 
   const imageChangeHandler = (e) => {
-    console.log(e.target.files[0]);
     const file = e.target.files[0];
     if (!file) {
       toast.error('No file selected');
@@ -94,11 +92,11 @@ function MessageInputBar() {
         onSubmit={sendMessageHandler}
         className=" flex px-3 mb-6 gap-3 w-full "
       >
-        <div className="flex w-[100%] md:w-[68%] bg-zinc-200 border-black border-[0.5px] text-black rounded-md items-center md:gap-5 md:pr-5">
+        <div className="flex h-[52px] md:h-[64px] flex-1 bg-zinc-200 border-black border-[0.5px] text-black rounded-md items-center md:gap-5 md:pr-5">
           {/* Input Field */}
           <input
             type="text"
-            className="w-full md:flex-1 p-3 md:p-5 bg-transparent border-none rounded-md focus:border-none focus:outline-none"
+            className="h-full w-full md:flex-1 px-3 md:px-5 bg-transparent border-none rounded-md focus:border-none focus:outline-none"
             placeholder="Enter Message"
             value={newMessage.text}
             onChange={(e) =>

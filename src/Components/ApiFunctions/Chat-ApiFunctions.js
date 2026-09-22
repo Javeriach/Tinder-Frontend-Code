@@ -41,7 +41,6 @@ export const fetchMessages = async (targetUserId, dispatch) => {
     );
 
     let data = response.data;
-    console.log(data);
     dispatch(currentChatDataHandler(data)); // Update current chat data
   } catch (error) {
     console.log(error);

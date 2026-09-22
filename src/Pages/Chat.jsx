@@ -46,7 +46,6 @@ function Chat() {
   }, [window.innerWidth]);
 
   if (!user && !user?.toString()) navigate('/login');
-  console.log(contactsloading)
   if(contactsloading && !currentChatData)
   {return (
     <div className="flex h-screen bg-white justify-center items-center w-full ">
