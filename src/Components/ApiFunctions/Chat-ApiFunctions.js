@@ -4,6 +4,7 @@ import {
   setCurrentContacts,
   setContactsLoading,
   setMessageLoading,
+  setNotifications,
 } from '@/Redux/Slices/chatSlice';
 
 import { BASE_USL } from '../../utiles/constants/constant';
@@ -21,6 +22,19 @@ export const fetchContacts = async (dispatch) => {
     throw new Error('Failed to fetch contacts. Please try again later.');
   } finally {
     dispatch(setContactsLoading(false));
+  }
+};
+
+// Fetch unread-message notifications (survives reload/reconnect, unlike the
+// purely in-memory list built from live socket events).
+export const fetchNotifications = async (dispatch) => {
+  try {
+    const { data } = await axios.get(`${BASE_USL}/notifications`, {
+      withCredentials: true,
+    });
+    dispatch(setNotifications(data));
+  } catch (error) {
+    console.error('Error fetching notifications:', error.message);
   }
 };
 

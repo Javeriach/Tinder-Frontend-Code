@@ -49,18 +49,18 @@ function Chat() {
   if(contactsloading && !currentChatData)
   {return (
     <div className="flex h-screen bg-white justify-center items-center w-full ">
-      (
+      
       <>
-     <Lottie animationData={message_loading}/>
+     <Lottie animationData={message_loading} className="w-32 h-32" />
       </>
-      )
+      
     </div>
   );
   }
   
   return (
     <div className="flex h-screen bg-white ">
-      (
+      
       <>
         <ContactsContainer />
         {(targetUserId && (currentChatData || messagesLoading))  ? (
@@ -69,7 +69,7 @@ function Chat() {
           <EmptyChatContainer />
         )}
       </>
-      )
+      
     </div>
   );
 }

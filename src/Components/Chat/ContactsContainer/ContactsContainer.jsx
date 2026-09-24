@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 function ContactsContainer() {
   let [contacts, setContacts] = useState([]);
-  let { currentChatData, contactsData} = useSelector(
+  let { currentChatData, contactsData, contactsloading} = useSelector(
     (store) => store.chat
   );
   let [hideContacts, setHideContacts] = useState(false);
@@ -42,6 +42,20 @@ function ContactsContainer() {
   useEffect(() => {
     if (contactsData?.length) setContacts(contactsData);
   }, [contactsData, windowWidth]);
+
+  if (contactsloading) {
+    return (
+      <div
+        className={` relative md:w-[35vw] lg:w-[30vw] pt-[70px]   xl:w-[25vw] bg-white border-r-[1px] w-full h-full ${
+          hideContacts ? 'hidden' : 'flex flex-col'
+        }`}
+      >
+        <h1 className="font-bold text-center text-black pt-[50px]">
+          Loading chats...
+        </h1>
+      </div>
+    );
+  }
 
   if (!contacts?.length) {
     return (

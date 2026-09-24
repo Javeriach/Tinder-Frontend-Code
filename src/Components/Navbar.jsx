@@ -22,6 +22,11 @@ function Navbar() {
   const currentRoute = useLocation();
   const [loggingOut, setLoggingOut] = useState(false);
 
+  // daisyUI's dropdown is a pure CSS :focus-within menu, so it only closes
+  // when focus leaves it entirely - clicking a menu item navigates but
+  // doesn't blur, leaving it open. Blur on click to close it.
+  const closeDropdown = () => document.activeElement?.blur();
+
   //FUNCTION TO HANDLE LOGOUT
   let handleLogout = async () => {
     if (!user || loggingOut) return;
@@ -100,38 +105,41 @@ function Navbar() {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                 >
                   <li className='md:hidden'>
-                  <Link className="justify-between" to={'/profile'}>
+                  <Link className="justify-between" to={'/profile'} onClick={closeDropdown}>
                    Hi! {user.toString() ? user.firstName : ''}
                     <span className="badge">You</span>
                   </Link>
                   </li>
-                  
+
                 <li>
-                  <Link className="justify-between" to={'/profile'}>
+                  <Link className="justify-between" to={'/profile'} onClick={closeDropdown}>
                     My Profile
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/feed'}>Feed</Link>
+                  <Link to={'/feed'} onClick={closeDropdown}>Feed</Link>
                 </li>
 
                 <li>
-                  <Link to={'/connections'}>Friends</Link>
+                  <Link to={'/connections'} onClick={closeDropdown}>Friends</Link>
                 </li>
 
                 <li>
-                  <Link to={'/requests'}>Friend Requests</Link>
+                  <Link to={'/requests'} onClick={closeDropdown}>Friend Requests</Link>
                 </li>
                 <li>
-                  <Link to={'/premium'}>Premium</Link>
-                </li>
-
-                <li>
-                  <Link to={'/chat'}>Chats</Link>
+                  <Link to={'/premium'} onClick={closeDropdown}>Premium</Link>
                 </li>
 
                 <li>
-                  <a onClick={handleLogout} className={loggingOut ? 'pointer-events-none opacity-60' : ''}>
+                  <Link to={'/chat'} onClick={closeDropdown}>Chats</Link>
+                </li>
+
+                <li>
+                  <a
+                    onClick={(e) => { handleLogout(e); closeDropdown(); }}
+                    className={loggingOut ? 'pointer-events-none opacity-60' : ''}
+                  >
                     {loggingOut && <span className="loading loading-spinner loading-xs"></span>}
                     {loggingOut ? 'Logging out...' : 'Logout'}
                   </a>

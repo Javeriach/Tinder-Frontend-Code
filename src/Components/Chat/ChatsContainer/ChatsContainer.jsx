@@ -8,14 +8,11 @@ import Lottie from 'lottie-react';
 function ChatsContainer() {
   let { currentChatData, messagesLoading } = useSelector((store) => store.chat);
   return (
-    <div className="pt-[70px] bg-white overflow-hidden flex-1  md:flex  flex flex-col h-full duration-100 ">
+    <div className="pt-0 md:pt-[70px] bg-white overflow-hidden flex-1  md:flex  flex flex-col h-full duration-100 ">
       {/* CHAR USER */}
       {messagesLoading ? (
-        <div
-          className="flex justify-center items-center h-full w-fukk
-            "
-        >
-          <Lottie animationData={message_loading} />
+        <div className="flex justify-center items-center h-full w-full">
+          <Lottie animationData={message_loading} className="w-32 h-32" />
         </div>
       ) : (
         <>

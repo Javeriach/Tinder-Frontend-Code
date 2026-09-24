@@ -72,14 +72,13 @@ export default function Login() {
       navigate('/profile');
       // TO CONNECT THE SOCKET WHEN WE GET LOGGED IN
     } catch (error) {
-      if (error.status === 400) {
-        setError(error.response.data.message);
-        console.log(error.response.data.message);
-      } else if (error.response.data.message.substring('E11000')) {
+      if (error.response?.data?.message?.includes('E11000')) {
         setError('Use a different Email address!!');
+      } else if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        toast.error('Something went wrong!!');
       }
-      toast.error('Something went wrong!!');
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -110,10 +109,11 @@ export default function Login() {
       dispatch(removeRequests());
       connectSocket(result.data._id);//WE ARE CONNETING THE SOCKET
     } catch (error) {
-      if (error.status === 400) {
+      if (error.response?.data?.message) {
         setError(error.response.data.message);
-      } else toast.error('Something went wrong!!');
-      console.log(error);
+      } else {
+        toast.error('Something went wrong!!');
+      }
     } finally {
       setLoading(false);
     }

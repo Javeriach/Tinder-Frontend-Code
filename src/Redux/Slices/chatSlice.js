@@ -69,6 +69,12 @@ let chatSlice = createSlice({
         notifications: [action.payload, ...state.notifications],
       };
     },
+    setNotifications: (state, action) => {
+      return {
+        ...state,
+        notifications: action.payload,
+      };
+    },
     removeNotification: (state, action) => {
       const filterNotifications = state.notifications.filter((notification) => {
         return notification.senderId != action.payload;
@@ -95,6 +101,7 @@ export let {
   currentChatMessageSetter,
   contacts_DataUpdater_on_Message_Arrival,
   notificationsHandler,
+  setNotifications,
   removeNotification,
 } = chatSlice.actions;
 export default chatSlice.reducer;

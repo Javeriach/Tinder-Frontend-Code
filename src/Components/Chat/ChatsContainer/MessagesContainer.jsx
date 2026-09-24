@@ -141,7 +141,7 @@ function MessagesContainer({ previousMessages }) {
                   <div className={`flex`}>
                     <div className="flex flex-col gap-1">
                       <div
-                        class={`flex flex-col w-full max-w-[326px] leading-1.5 p-4  border-gray-200 ${
+                        class={`flex flex-col w-full max-w-[220px] leading-1.5 p-4  border-gray-200 ${
                           msg?.senderId?._id === user?._id
                             ? ' bg-blue-500 text-white'
                             : ' bg-gray-300 text-black'
@@ -214,7 +214,10 @@ function MessagesContainer({ previousMessages }) {
                                 ></div>
                               </div>
                             </div>
-                            <img src={msg.imageURL} class="rounded-lg" />
+                            <img
+                              src={msg.imageURL}
+                              className="rounded-lg max-w-full max-h-[160px] object-cover"
+                            />
                           </div>
                         )}
                         <span

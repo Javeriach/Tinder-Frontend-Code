@@ -90,7 +90,7 @@ function UserCard({ feeduser: user, feed, index, feedArray }) {
 
       <motion.img
         onDragStart={(e) => e.preventDefault()}
-        className="h-[350px] w-full md:w-[470px] md:h-[440px] rounded-t-2xl"
+        className="h-[350px] w-full md:h-[440px] rounded-t-2xl object-cover"
         src={photoUrl?.length > 0 ? photoUrl : DEFAULT_AVATAR}
 
         alt={firstName}
